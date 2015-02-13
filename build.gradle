@@ -7,7 +7,7 @@ repositories {
 }
 
 jar {
-    baseName = 'GenuineData'
+    baseName = 'Conjure'
     version =  '1.0.1'
 }
 
