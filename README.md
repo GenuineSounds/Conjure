@@ -1,5 +1,5 @@
-# MCData
-MCData is a forwards and backwards compatible NBT library that is loosely typed and fully serializeable to JSON via Gson.
+# Conjure
+Conjure is a forwards and backwards compatible NBT library that is loosely typed and fully serializeable to JSON via Gson.
 
 # License
 Copyright (c) 2015 Brian Wiegand (GenuineSounds)
