@@ -1,5 +1,5 @@
 # Conjure
-Conjure is a forwards and backwards compatible NBT library that is loosely typed and fully serializeable to JSON via Gson.
+Conjure is a loosely typed value based data-structure designed to be fully serializeable to JSON via Gson and easily converted to and from Minecraft's NBT library.
 
 # License
 Copyright (c) 2015 Brian Wiegand (GenuineSounds)
