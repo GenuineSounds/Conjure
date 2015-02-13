@@ -20,9 +20,12 @@ public class DataShort extends AbstractData<Short> implements Primitive {
 	public static final byte TYPE = 2;
 	private short value;
 
-	public DataShort() {}
+	public DataShort() {
+		super(TYPE);
+	}
 
 	public DataShort(final short value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -42,16 +45,6 @@ public class DataShort extends AbstractData<Short> implements Primitive {
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataShort.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		return Short.toString(value);
 	}
@@ -60,7 +53,6 @@ public class DataShort extends AbstractData<Short> implements Primitive {
 	public DataShort copy() {
 		return new DataShort(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

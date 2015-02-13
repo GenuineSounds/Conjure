@@ -20,9 +20,12 @@ public class DataDouble extends AbstractData<Double> implements Primitive {
 	public static final byte TYPE = 6;
 	private double value;
 
-	public DataDouble() {}
+	public DataDouble() {
+		super(TYPE);
+	}
 
 	public DataDouble(final double value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -42,16 +45,6 @@ public class DataDouble extends AbstractData<Double> implements Primitive {
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataDouble.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		return Double.toString(value);
 	}
@@ -60,7 +53,6 @@ public class DataDouble extends AbstractData<Double> implements Primitive {
 	public DataDouble copy() {
 		return new DataDouble(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

@@ -1,4 +1,4 @@
-package com.genuinevm.data.array;
+package com.genuinevm.data.collection;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -18,14 +18,15 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataByteArray extends AbstractData<byte[]> implements PrimitiveArray {
 
-	public static final String NAME = "BYTE[]";
-	public static final long SIZE = DataByte.SIZE;
 	public static final byte TYPE = 7;
 	private byte[] value;
 
-	public DataByteArray() {}
+	public DataByteArray() {
+		super(TYPE);
+	}
 
 	public DataByteArray(final byte[] value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -48,18 +49,8 @@ public class DataByteArray extends AbstractData<byte[]> implements PrimitiveArra
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataByteArray.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return DataByteArray.NAME;
-	}
-
-	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder(value.length * (int) SIZE);
+		final StringBuilder sb = new StringBuilder();
 		sb.append('[');
 		for (int i = 0; i < value.length; i++)
 			sb.append(String.format("%02X ", value[i]));
@@ -75,7 +66,6 @@ public class DataByteArray extends AbstractData<byte[]> implements PrimitiveArra
 		System.arraycopy(this.value, 0, value, 0, this.value.length);
 		return new DataByteArray(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import com.genuinevm.data.AbstractData;
 import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.genuinevm.data.PrimitiveArray;
-import com.genuinevm.data.array.DataByteArray;
-import com.genuinevm.data.array.DataIntegerArray;
 import com.genuinevm.data.primitive.DataBoolean;
 import com.genuinevm.data.primitive.DataByte;
 import com.genuinevm.data.primitive.DataDouble;
@@ -34,14 +34,15 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 
-	public static final String NAME = "COMPOUND";
-	public static final long SIZE = 16;
 	public static final byte TYPE = 10;
 	private Map<String, AbstractData> values = new HashMap<String, AbstractData>();
 
-	public DataCompound() {}
+	public DataCompound() {
+		super(TYPE);
+	}
 
 	public DataCompound(final Map<String, AbstractData> values) {
+		super(TYPE);
 		this.values = values;
 	}
 
@@ -54,8 +55,8 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 	public void write(final DataOutput output) throws IOException {
 		for (final String name : values.keySet()) {
 			final AbstractData data = values.get(name);
-			output.writeByte(data.getTypeByte());
-			if (data.getTypeByte() != 0) {
+			output.writeByte(data.storageType);
+			if (data.storageType != 0) {
 				output.writeUTF(name);
 				data.write(output);
 			}
@@ -79,23 +80,13 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		return values.keySet();
 	}
 
-	@Override
-	public byte getTypeByte() {
-		return DataCompound.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
 	public void set(final String name, final AbstractData value) {
 		if (this != value)
 			values.put(name, value);
 	}
 
 	public void set(final String name, final boolean value) {
-		values.put(name, new DataBoolean(value));
+		values.put(name, value ? DataBoolean.TRUE : DataBoolean.FALSE);
 	}
 
 	public void set(final String name, final byte value) {
@@ -144,19 +135,19 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 
 	public byte getType(final String name) {
 		final AbstractData nbtbase = values.get(name);
-		return nbtbase != null ? nbtbase.getTypeByte() : 0;
+		return nbtbase != null ? nbtbase.storageType : 0;
 	}
 
 	public boolean hasKey(final String name) {
 		return values.containsKey(name);
 	}
 
-	public boolean hasKey(final String name, final int withType) {
+	public boolean keyIsType(final String name, final int withType) {
 		final byte type = getType(name);
-		return type == withType ? true : withType != 99 ? false : type == 1 || type == 2 || type == 3 || type == 4 || type == 5 || type == 6;
+		return type == withType;
 	}
 
-	public AbstractData getData(final String name) {
+	public AbstractData get(final String name) {
 		return values.get(name);
 	}
 
@@ -268,26 +259,21 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		}
 	}
 
+	public DataArray getArray(final String name) {
+		try {
+			return values.containsKey(name) ? (DataArray) values.get(name) : new DataArray();
+		}
+		catch (final ClassCastException e) {
+			return new DataArray();
+		}
+	}
+
 	public DataCompound getCompound(final String name) {
 		try {
 			return values.containsKey(name) ? (DataCompound) values.get(name) : new DataCompound();
 		}
 		catch (final ClassCastException e) {
 			return new DataCompound();
-		}
-	}
-
-	public DataList getList(final String name, final int ofType) {
-		try {
-			if (getType(name) != DataList.TYPE)
-				return new DataList();
-			else {
-				final DataList list = (DataList) values.get(name);
-				return list.size() > 0 && list.getListType() == ofType ? list : new DataList();
-			}
-		}
-		catch (final ClassCastException e) {
-			return new DataList();
 		}
 	}
 
@@ -301,8 +287,7 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		sb.append("{ ");
 		for (final String str : values.keySet()) {
 			sb.append('"');
-			//			sb.append(StringEscapeUtils.escapeJson(str));
-			sb.append(str);
+			sb.append(StringEscapeUtils.escapeJson(str));
 			sb.append("\": ");
 			sb.append(values.get(str));
 			sb.append(", ");

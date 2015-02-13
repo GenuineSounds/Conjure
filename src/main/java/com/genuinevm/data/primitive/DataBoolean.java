@@ -15,25 +15,18 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataBoolean extends AbstractData<Boolean> implements Primitive {
 
-	public static final String NAME = "BOOLEAN";
-	public static final long SIZE = 1;
+	public static final DataBoolean TRUE = new DataBoolean(true);
+	public static final DataBoolean FALSE = new DataBoolean(false);
 	public static final byte TYPE = 12;
 	private boolean value;
 
-	public DataBoolean() {}
+	private DataBoolean() {
+		super(TYPE);
+	}
 
-	public DataBoolean(final boolean value) {
+	private DataBoolean(final boolean value) {
+		super(TYPE);
 		this.value = value;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
-	public byte getTypeByte() {
-		return TYPE;
 	}
 
 	@Override
@@ -48,7 +41,7 @@ public class DataBoolean extends AbstractData<Boolean> implements Primitive {
 
 	@Override
 	public DataBoolean copy() {
-		return new DataBoolean(value);
+		return value ? DataBoolean.TRUE : DataBoolean.FALSE;
 	}
 
 	@Override
@@ -117,6 +110,6 @@ public class DataBoolean extends AbstractData<Boolean> implements Primitive {
 
 	@Override
 	public DataBoolean deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		return new DataBoolean(json.getAsBoolean());
+		return json.getAsBoolean() ? TRUE : FALSE;
 	}
 }

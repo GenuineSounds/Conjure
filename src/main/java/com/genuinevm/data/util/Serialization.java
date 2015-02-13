@@ -5,16 +5,16 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.genuinevm.data.AbstractData;
-import com.genuinevm.data.DataNull;
-import com.genuinevm.data.array.DataByteArray;
+import com.genuinevm.data.collection.DataByteArray;
 import com.genuinevm.data.collection.DataCompound;
-import com.genuinevm.data.collection.DataList;
+import com.genuinevm.data.collection.DataArray;
 import com.genuinevm.data.primitive.DataBoolean;
 import com.genuinevm.data.primitive.DataByte;
 import com.genuinevm.data.primitive.DataDouble;
 import com.genuinevm.data.primitive.DataFloat;
 import com.genuinevm.data.primitive.DataInteger;
 import com.genuinevm.data.primitive.DataLong;
+import com.genuinevm.data.primitive.DataNull;
 import com.genuinevm.data.primitive.DataShort;
 import com.genuinevm.data.primitive.DataString;
 import com.google.gson.JsonDeserializationContext;
@@ -31,13 +31,13 @@ public class Serialization {
 			out = new DataCompound();
 		else if (element.isJsonArray())
 			// Push down array as DataList for deserialization
-			out = new DataList();
+			out = new DataArray();
 		// Must be a primitive.
 		else {
 			final JsonPrimitive primitive = element.getAsJsonPrimitive();
 			if (primitive.isBoolean())
-				// Push Booleans for deserialization
-				out = new DataBoolean();
+				// No need to push a boolean.
+				return primitive.getAsBoolean() ? DataBoolean.TRUE : DataBoolean.FALSE;
 			else
 				try {
 					final Number number = convertToSmallestNumber(primitive.getAsNumber().toString());

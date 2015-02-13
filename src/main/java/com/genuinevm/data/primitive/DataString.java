@@ -22,9 +22,12 @@ public class DataString extends AbstractData<String> {
 	public static final byte TYPE = 8;
 	private String value = "";
 
-	public DataString() {}
+	public DataString() {
+		super(TYPE);
+	}
 
 	public DataString(final String value) {
+		super(TYPE);
 		this.value = value;
 		if (value == null)
 			throw new IllegalArgumentException("Null value not allowed");
@@ -43,16 +46,6 @@ public class DataString extends AbstractData<String> {
 	@Override
 	public void write(final DataOutput out) throws IOException {
 		out.writeUTF(value);
-	}
-
-	@Override
-	public byte getTypeByte() {
-		return DataString.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
 	}
 
 	@Override

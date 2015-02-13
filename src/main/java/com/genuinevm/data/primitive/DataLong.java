@@ -20,15 +20,18 @@ public class DataLong extends AbstractData<Long> implements Primitive {
 	public static final byte TYPE = 4;
 	private long value;
 
-	public DataLong() {}
+	public DataLong() {
+		super(TYPE);
+	}
+
+	public DataLong(final long value) {
+		super(TYPE);
+		this.value = value;
+	}
 
 	@Override
 	public Long value() {
 		return value;
-	}
-
-	public DataLong(final long value) {
-		this.value = value;
 	}
 
 	@Override
@@ -42,16 +45,6 @@ public class DataLong extends AbstractData<Long> implements Primitive {
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataLong.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		return Long.toString(value);
 	}
@@ -60,7 +53,6 @@ public class DataLong extends AbstractData<Long> implements Primitive {
 	public DataLong copy() {
 		return new DataLong(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

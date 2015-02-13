@@ -20,9 +20,12 @@ public class DataByte extends AbstractData<Byte> implements Primitive {
 	public static final byte TYPE = 1;
 	private byte value;
 
-	public DataByte() {}
+	public DataByte() {
+		super(TYPE);
+	}
 
 	public DataByte(final byte value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -42,16 +45,6 @@ public class DataByte extends AbstractData<Byte> implements Primitive {
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataByte.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		return Byte.toString(value);
 	}
@@ -60,7 +53,6 @@ public class DataByte extends AbstractData<Byte> implements Primitive {
 	public DataByte copy() {
 		return new DataByte(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

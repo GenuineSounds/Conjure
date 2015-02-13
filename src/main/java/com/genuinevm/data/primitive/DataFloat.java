@@ -20,9 +20,12 @@ public class DataFloat extends AbstractData<Float> implements Primitive {
 	public static final byte TYPE = 5;
 	private float value;
 
-	public DataFloat() {}
+	public DataFloat() {
+		super(TYPE);
+	}
 
 	public DataFloat(final float value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -42,16 +45,6 @@ public class DataFloat extends AbstractData<Float> implements Primitive {
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataFloat.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		return Float.toString(value);
 	}
@@ -60,7 +53,6 @@ public class DataFloat extends AbstractData<Float> implements Primitive {
 	public DataFloat copy() {
 		return new DataFloat(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

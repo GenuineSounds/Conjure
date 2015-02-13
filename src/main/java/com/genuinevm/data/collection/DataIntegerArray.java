@@ -1,4 +1,4 @@
-package com.genuinevm.data.array;
+package com.genuinevm.data.collection;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -18,14 +18,15 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataIntegerArray extends AbstractData<int[]> implements PrimitiveArray {
 
-	public static final String NAME = "INT[]";
-	public static final long SIZE = DataInteger.SIZE;
 	public static final byte TYPE = 11;
 	private int[] value;
 
-	public DataIntegerArray() {}
+	public DataIntegerArray() {
+		super(TYPE);
+	}
 
 	public DataIntegerArray(final int[] value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -50,16 +51,6 @@ public class DataIntegerArray extends AbstractData<int[]> implements PrimitiveAr
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataIntegerArray.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append('[');
@@ -81,7 +72,6 @@ public class DataIntegerArray extends AbstractData<int[]> implements PrimitiveAr
 		System.arraycopy(this.value, 0, value, 0, this.value.length);
 		return new DataIntegerArray(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

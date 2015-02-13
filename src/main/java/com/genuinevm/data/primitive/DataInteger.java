@@ -20,9 +20,12 @@ public class DataInteger extends AbstractData<Integer> implements Primitive {
 	public static final byte TYPE = 3;
 	private int value;
 
-	public DataInteger() {}
+	public DataInteger() {
+		super(TYPE);
+	}
 
 	public DataInteger(final int value) {
+		super(TYPE);
 		this.value = value;
 	}
 
@@ -42,16 +45,6 @@ public class DataInteger extends AbstractData<Integer> implements Primitive {
 	}
 
 	@Override
-	public byte getTypeByte() {
-		return DataInteger.TYPE;
-	}
-
-	@Override
-	public String getTypeName() {
-		return NAME;
-	}
-
-	@Override
 	public String toString() {
 		return Integer.toString(value);
 	}
@@ -60,7 +53,6 @@ public class DataInteger extends AbstractData<Integer> implements Primitive {
 	public DataInteger copy() {
 		return new DataInteger(value);
 	}
-
 
 	@Override
 	public boolean equals(final Object obj) {

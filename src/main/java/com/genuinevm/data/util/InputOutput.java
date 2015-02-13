@@ -18,8 +18,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.genuinevm.data.AbstractData;
-import com.genuinevm.data.DataNull;
 import com.genuinevm.data.collection.DataCompound;
+import com.genuinevm.data.primitive.DataNull;
 
 public class InputOutput {
 
@@ -141,8 +141,8 @@ public class InputOutput {
 	}
 
 	private static void writeToOutput(final AbstractData data, final DataOutput output) throws IOException {
-		output.writeByte(data.getTypeByte());
-		if (data.getTypeByte() != 0) {
+		output.writeByte(data.storageType);
+		if (data.storageType != 0) {
 			output.writeUTF("");
 			data.write(output);
 		}
