@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,16 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataLong extends AbstractData<Long> implements Primitive {
+public class DataLong implements Data<Long>, Primitive {
 
 	public static final String NAME = "LONG";
 	public static final long SIZE = 64;
 	public static final byte TYPE = 4;
 	private long value;
 
-	public DataLong() {
-		super(TYPE);
-	}
+	public DataLong() {}
 
 	public DataLong(final long value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -104,12 +101,17 @@ public class DataLong extends AbstractData<Long> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Long> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Long> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataLong deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataLong(json.getAsLong());
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.PrimitiveArray;
-import com.genuinevm.data.primitive.DataByte;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -16,17 +15,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataByteArray extends AbstractData<byte[]> implements PrimitiveArray {
+public class DataByteArray implements Data<byte[]>, PrimitiveArray {
 
 	public static final byte TYPE = 7;
 	private byte[] value;
 
-	public DataByteArray() {
-		super(TYPE);
-	}
+	public DataByteArray() {}
 
 	public DataByteArray(final byte[] value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -82,7 +78,7 @@ public class DataByteArray extends AbstractData<byte[]> implements PrimitiveArra
 	}
 
 	@Override
-	public JsonArray serialize(final AbstractData<byte[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonArray serialize(final Data<byte[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonArray array = new JsonArray();
 		for (final byte b : src.value())
 			array.add(new JsonPrimitive(b));
@@ -114,5 +110,10 @@ public class DataByteArray extends AbstractData<byte[]> implements PrimitiveArra
 		for (int i = 0; i < array.length; i++)
 			array[i] = value[i];
 		return array;
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

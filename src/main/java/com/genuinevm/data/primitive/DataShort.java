@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,16 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataShort extends AbstractData<Short> implements Primitive {
+public class DataShort implements Data<Short>, Primitive {
 
 	public static final String NAME = "SHORT";
 	public static final long SIZE = 16;
 	public static final byte TYPE = 2;
 	private short value;
 
-	public DataShort() {
-		super(TYPE);
-	}
+	public DataShort() {}
 
 	public DataShort(final short value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -104,12 +101,17 @@ public class DataShort extends AbstractData<Short> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Short> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Short> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataShort deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataShort(json.getAsShort());
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

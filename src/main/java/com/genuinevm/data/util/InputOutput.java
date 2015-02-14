@@ -17,7 +17,8 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
+import com.genuinevm.data.TypeSystem;
 import com.genuinevm.data.collection.DataCompound;
 import com.genuinevm.data.primitive.DataNull;
 
@@ -66,68 +67,68 @@ public class InputOutput {
 	}
 
 	public static DataCompound readCompressed(final InputStream stream) throws IOException {
-		final DataInputStream compressedInput = new DataInputStream(new BufferedInputStream(new GZIPInputStream(stream)));
+		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(stream)));
 		DataCompound data;
 		try {
-			data = getDataCompound(compressedInput);
+			data = getDataCompound(compressed);
 		}
 		finally {
-			compressedInput.close();
+			compressed.close();
 		}
 		return data;
 	}
 
-	public static DataCompound readCompressed(final byte[] bs) throws IOException {
-		final DataInputStream compressedInput = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bs))));
+	public static DataCompound readCompressed(final byte[] bytes) throws IOException {
+		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
 		DataCompound compound;
 		try {
-			compound = getDataCompound(compressedInput);
+			compound = getDataCompound(compressed);
 		}
 		finally {
-			compressedInput.close();
+			compressed.close();
 		}
 		return compound;
 	}
 
 	public static DataCompound getDataCompound(final DataInput input) throws IOException {
-		final AbstractData data = getAbstractData(input);
+		final Data data = getData(input);
 		if (data instanceof DataCompound)
 			return (DataCompound) data;
 		throw new IOException("DataCompound was not the containing data type");
 	}
 
-	private static AbstractData getAbstractData(final DataInput input) throws IOException {
+	private static Data getData(final DataInput input) throws IOException {
 		final byte type = input.readByte();
 		if (type == 0)
 			return DataNull.INSTANCE;
 		input.readUTF();
-		final AbstractData data = AbstractData.create(type);
+		final Data data = TypeSystem.getTypeSystem().createByCode(type);
 		data.read(input);
 		return data;
 	}
 
 	public static byte[] getBytes(final DataCompound compound) throws IOException {
-		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		final DataOutputStream compressedOutput = new DataOutputStream(baos);
+		final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+		final DataOutputStream compressedOutput = new DataOutputStream(byteArray);
 		try {
 			writeToOutput(compound, compressedOutput);
 		}
 		finally {
 			compressedOutput.close();
 		}
-		return baos.toByteArray();
+		return byteArray.toByteArray();
 	}
 
 	public static byte[] getCompressedBytes(final DataCompound compound) throws IOException {
-		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		final DataOutputStream compressedOutput = new DataOutputStream(new GZIPOutputStream(baos));
+		final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+		final DataOutputStream compressed = new DataOutputStream(new GZIPOutputStream(byteArray));
 		try {
-			writeToOutput(compound, compressedOutput);
+			writeToOutput(compound, compressed);
 		}
 		finally {
-			compressedOutput.close();
+			compressed.close();
 		}
-		return baos.toByteArray();
+		return byteArray.toByteArray();
 	}
 
 	public static void writeToCompressedStream(final DataCompound compound, final OutputStream stream) throws IOException {
@@ -140,9 +141,9 @@ public class InputOutput {
 		}
 	}
 
-	private static void writeToOutput(final AbstractData data, final DataOutput output) throws IOException {
-		output.writeByte(data.storageType);
-		if (data.storageType != 0) {
+	private static void writeToOutput(final Data data, final DataOutput output) throws IOException {
+		output.writeByte(data.code());
+		if (data.code() != 0) {
 			output.writeUTF("");
 			data.write(output);
 		}

@@ -13,10 +13,10 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import com.genuinevm.data.AbstractData;
 import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.genuinevm.data.PrimitiveArray;
+import com.genuinevm.data.TypeSystem;
 import com.genuinevm.data.primitive.DataBoolean;
 import com.genuinevm.data.primitive.DataByte;
 import com.genuinevm.data.primitive.DataDouble;
@@ -32,31 +32,28 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-public class DataCompound extends AbstractData<Map<String, AbstractData>> {
+public class DataCompound implements Data<Map<String, Data>> {
 
 	public static final byte TYPE = 10;
-	private Map<String, AbstractData> values = new HashMap<String, AbstractData>();
+	private Map<String, Data> values = new HashMap<String, Data>();
 
-	public DataCompound() {
-		super(TYPE);
-	}
+	public DataCompound() {}
 
-	public DataCompound(final Map<String, AbstractData> values) {
-		super(TYPE);
+	public DataCompound(final Map<String, Data> values) {
 		this.values = values;
 	}
 
 	@Override
-	public Map<String, AbstractData> value() {
+	public Map<String, Data> value() {
 		return values;
 	}
 
 	@Override
 	public void write(final DataOutput output) throws IOException {
 		for (final String name : values.keySet()) {
-			final AbstractData data = values.get(name);
-			output.writeByte(data.storageType);
-			if (data.storageType != 0) {
+			final Data data = values.get(name);
+			output.writeByte(data.code());
+			if (data.code() != 0) {
 				output.writeUTF(name);
 				data.write(output);
 			}
@@ -70,7 +67,7 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		byte type;
 		while ((type = input.readByte()) != 0) {
 			final String name = input.readUTF();
-			final AbstractData data = AbstractData.create(type);
+			final Data data = TypeSystem.getTypeSystem().createByCode(type);
 			data.read(input);
 			values.put(name, data);
 		}
@@ -80,7 +77,7 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		return values.keySet();
 	}
 
-	public void set(final String name, final AbstractData value) {
+	public void set(final String name, final Data value) {
 		if (this != value)
 			values.put(name, value);
 	}
@@ -133,21 +130,21 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		values.put(name, new DataString(value.toPlainString()));
 	}
 
-	public byte getType(final String name) {
-		final AbstractData nbtbase = values.get(name);
-		return nbtbase != null ? nbtbase.storageType : 0;
+	public byte getDataCode(final String name) {
+		final Data nbtbase = values.get(name);
+		return nbtbase != null ? nbtbase.code() : 0;
 	}
 
-	public boolean hasKey(final String name) {
+	public boolean hasEntry(final String name) {
 		return values.containsKey(name);
 	}
 
-	public boolean keyIsType(final String name, final int withType) {
-		final byte type = getType(name);
+	public boolean entryIsDataCode(final String name, final int withType) {
+		final byte type = getDataCode(name);
 		return type == withType;
 	}
 
-	public AbstractData get(final String name) {
+	public Data getData(final String name) {
 		return values.get(name);
 	}
 
@@ -214,6 +211,15 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		}
 	}
 
+	public String getString(final String name) {
+		try {
+			return values.containsKey(name) ? ((DataString) values.get(name)).value() : "";
+		}
+		catch (final ClassCastException classcastexception) {
+			return "";
+		}
+	}
+
 	public byte[] getByteArray(final String name) {
 		try {
 			return values.containsKey(name) ? ((PrimitiveArray) values.get(name)).toByteArray() : new byte[0];
@@ -229,15 +235,6 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 		}
 		catch (final ClassCastException e) {
 			return new int[0];
-		}
-	}
-
-	public String getString(final String name) {
-		try {
-			return values.containsKey(name) ? ((DataString) values.get(name)).value() : "";
-		}
-		catch (final ClassCastException classcastexception) {
-			return "";
 		}
 	}
 
@@ -285,11 +282,11 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("{ ");
-		for (final String str : values.keySet()) {
+		for (final Entry<String, Data> entry : values.entrySet()) {
 			sb.append('"');
-			sb.append(StringEscapeUtils.escapeJson(str));
+			sb.append(StringEscapeUtils.escapeJson(entry.getKey()));
 			sb.append("\": ");
-			sb.append(values.get(str));
+			sb.append(entry.getValue());
 			sb.append(", ");
 		}
 		if (sb.indexOf(", ") > 0) {
@@ -312,7 +309,7 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 	public DataCompound copy() {
 		final DataCompound compound = new DataCompound();
 		for (final String key : values.keySet())
-			compound.set(key, (AbstractData) values.get(key).copy());
+			compound.set(key, values.get(key).copy());
 		return compound;
 	}
 
@@ -331,23 +328,28 @@ public class DataCompound extends AbstractData<Map<String, AbstractData>> {
 	}
 
 	@Override
-	public JsonObject serialize(final AbstractData<Map<String, AbstractData>> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonObject serialize(final Data<Map<String, Data>> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonObject object = new JsonObject();
-		for (final Entry<String, AbstractData> entry : src.value().entrySet())
+		for (final Entry<String, Data> entry : src.value().entrySet())
 			object.add(entry.getKey(), entry.getValue().serialize(entry.getValue(), entry.getValue().getClass(), context));
 		return object;
 	}
 
 	@Override
 	public DataCompound deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		final Map<String, AbstractData> map = new HashMap<String, AbstractData>();
+		final Map<String, Data> map = new HashMap<String, Data>();
 		try {
 			for (final Entry<String, JsonElement> entry : json.getAsJsonObject().entrySet())
-				map.put(entry.getKey(), Serialization.serializedElement(entry.getValue(), entry.getValue().getClass(), context));
+				map.put(entry.getKey(), Serialization.create(entry.getValue(), entry.getValue().getClass(), context));
 			return new DataCompound(map);
 		}
 		catch (final Exception e) {
 			throw new JsonParseException(e);
 		}
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

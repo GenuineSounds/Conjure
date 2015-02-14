@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataDouble extends AbstractData<Double> implements Primitive {
+public class DataDouble implements Data<Double>, Primitive {
 
-	public static final String NAME = "DOUBLE";
-	public static final long SIZE = 64;
 	public static final byte TYPE = 6;
 	private double value;
 
-	public DataDouble() {
-		super(TYPE);
-	}
+	public DataDouble() {}
 
 	public DataDouble(final double value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -105,12 +100,17 @@ public class DataDouble extends AbstractData<Double> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Double> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Double> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataDouble deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataDouble(json.getAsDouble());
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

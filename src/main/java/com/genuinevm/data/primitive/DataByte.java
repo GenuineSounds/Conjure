@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataByte extends AbstractData<Byte> implements Primitive {
+public class DataByte implements Data<Byte>, Primitive {
 
-	public static final String NAME = "BYTE";
-	public static final long SIZE = 8;
 	public static final byte TYPE = 1;
 	private byte value;
 
-	public DataByte() {
-		super(TYPE);
-	}
+	public DataByte() {}
 
 	public DataByte(final byte value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -104,12 +99,17 @@ public class DataByte extends AbstractData<Byte> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Byte> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Byte> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataByte deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataByte(json.getAsByte());
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

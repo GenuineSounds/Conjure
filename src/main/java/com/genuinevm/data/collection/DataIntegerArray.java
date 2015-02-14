@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.PrimitiveArray;
-import com.genuinevm.data.primitive.DataInteger;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -16,17 +15,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataIntegerArray extends AbstractData<int[]> implements PrimitiveArray {
+public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 
 	public static final byte TYPE = 11;
 	private int[] value;
 
-	public DataIntegerArray() {
-		super(TYPE);
-	}
+	public DataIntegerArray() {}
 
 	public DataIntegerArray(final int[] value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -88,7 +84,7 @@ public class DataIntegerArray extends AbstractData<int[]> implements PrimitiveAr
 	}
 
 	@Override
-	public JsonArray serialize(final AbstractData<int[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonArray serialize(final Data<int[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonArray array = new JsonArray();
 		for (final int i : src.value())
 			array.add(new JsonPrimitive(i));
@@ -120,5 +116,10 @@ public class DataIntegerArray extends AbstractData<int[]> implements PrimitiveAr
 	@Override
 	public int[] toIntArray() {
 		return value;
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

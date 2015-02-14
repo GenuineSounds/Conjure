@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,16 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataFloat extends AbstractData<Float> implements Primitive {
+public class DataFloat implements Data<Float>, Primitive {
 
 	public static final String NAME = "FLOAT";
 	public static final long SIZE = 32;
 	public static final byte TYPE = 5;
 	private float value;
 
-	public DataFloat() {
-		super(TYPE);
-	}
+	public DataFloat() {}
 
 	public DataFloat(final float value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -104,12 +101,17 @@ public class DataFloat extends AbstractData<Float> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Float> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Float> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataFloat deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataFloat(json.getAsFloat());
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

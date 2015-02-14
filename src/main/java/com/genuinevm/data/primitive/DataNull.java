@@ -5,21 +5,19 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-public class DataNull extends AbstractData<Void> {
+public class DataNull implements Data<Void> {
 
 	public static final DataNull INSTANCE = new DataNull();
 	public static final byte TYPE = 0;
 
-	private DataNull() {
-		super(TYPE);
-	}
+	private DataNull() {}
 
 	@Override
 	public void read(final DataInput in) throws IOException {}
@@ -33,7 +31,7 @@ public class DataNull extends AbstractData<Void> {
 	}
 
 	@Override
-	public AbstractData<Void> copy() {
+	public Data<Void> copy() {
 		return DataNull.INSTANCE;
 	}
 
@@ -48,12 +46,17 @@ public class DataNull extends AbstractData<Void> {
 	}
 
 	@Override
-	public JsonNull serialize(final AbstractData<Void> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonNull serialize(final Data<Void> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return JsonNull.INSTANCE;
 	}
 
 	@Override
 	public DataNull deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return DataNull.INSTANCE;
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

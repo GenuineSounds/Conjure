@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,16 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataBoolean extends AbstractData<Boolean> implements Primitive {
+public class DataBoolean implements Data<Boolean>, Primitive {
 
 	public static final DataBoolean TRUE = new DataBoolean(true);
 	public static final DataBoolean FALSE = new DataBoolean(false);
 	public static final byte TYPE = 12;
 	private boolean value;
 
-	private DataBoolean() {
-		super(TYPE);
-	}
+	public DataBoolean() {}
 
-	private DataBoolean(final boolean value) {
-		super(TYPE);
+	public DataBoolean(final boolean value) {
 		this.value = value;
 	}
 
@@ -104,12 +101,17 @@ public class DataBoolean extends AbstractData<Boolean> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Boolean> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Boolean> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataBoolean deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return json.getAsBoolean() ? TRUE : FALSE;
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

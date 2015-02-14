@@ -5,22 +5,19 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.util.Map;
+import java.util.Map.Entry;
 
-import com.genuinevm.data.AbstractData;
 import com.genuinevm.data.Data;
+import com.genuinevm.data.TypeSystem;
 import com.genuinevm.data.collection.DataCompound;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 public class JSON {
 
 	private static final Gson GSON;
 	private static final GsonBuilder GSON_BUILDER = new GsonBuilder();
-	private static final Type TYPE = new TypeToken<Map<String, Data>>() {}.getType();
 
 	public static void saveDataToJSON(final DataCompound compound, final File file) {
 		try {
@@ -57,8 +54,8 @@ public class JSON {
 	static {
 		GSON_BUILDER.setPrettyPrinting();
 		GSON_BUILDER.enableComplexMapKeySerialization();
-		for (final AbstractData data : AbstractData.TYPES)
-			GSON_BUILDER.registerTypeAdapter(data.getClass(), data);
+		for (final Entry<Byte, Data> entry : TypeSystem.getTypeSystem().getDataTypes().entrySet())
+			GSON_BUILDER.registerTypeAdapter(entry.getValue().getClass(), entry.getValue());
 		GSON = GSON_BUILDER.create();
 	}
 }

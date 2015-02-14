@@ -7,7 +7,6 @@ import java.lang.reflect.Type;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import com.genuinevm.data.AbstractData;
 import com.genuinevm.data.Data;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -15,19 +14,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataString extends AbstractData<String> {
+public class DataString implements Data<String> {
 
-	public static final String NAME = "STRING";
-	public static final long SIZE = 8;
 	public static final byte TYPE = 8;
 	private String value = "";
 
-	public DataString() {
-		super(TYPE);
-	}
+	public DataString() {}
 
 	public DataString(final String value) {
-		super(TYPE);
 		this.value = value;
 		if (value == null)
 			throw new IllegalArgumentException("Null value not allowed");
@@ -50,7 +44,7 @@ public class DataString extends AbstractData<String> {
 
 	@Override
 	public String toString() {
-		return StringEscapeUtils.escapeJson(value);
+		return "\"" + StringEscapeUtils.escapeJson(value) + "\"";
 	}
 
 	@Override
@@ -73,12 +67,17 @@ public class DataString extends AbstractData<String> {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<String> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<String> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataString deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataString(json.getAsString());
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

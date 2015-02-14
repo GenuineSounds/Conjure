@@ -8,9 +8,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import com.genuinevm.data.AbstractData;
 import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
+import com.genuinevm.data.TypeSystem;
 import com.genuinevm.data.primitive.DataByte;
 import com.genuinevm.data.primitive.DataInteger;
 import com.genuinevm.data.primitive.DataNull;
@@ -21,44 +21,40 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
-public class DataArray extends AbstractData<AbstractData[]> {
+public class DataArray implements Data<Data[]> {
 
 	public static final byte TYPE = 9;
-	private AbstractData[] values = new AbstractData[0];
-	private byte type = DataNull.TYPE;
+	private Data[] values = new Data[0];
+	private byte elementType = DataNull.TYPE;
 
-	public DataArray() {
-		super(TYPE);
+	public DataArray() {}
+
+	public DataArray(final int ofSize) {
+		values = new Data[ofSize];
 	}
 
-	public DataArray(int ofSize) {
-		super(TYPE);
-		values = new AbstractData[ofSize];
-	}
-
-	public DataArray(AbstractData[] array) {
-		super(TYPE);
+	public DataArray(final Data[] array) {
 		values = array;
 	}
 
-	public DataArray(Collection<? extends AbstractData> col) {
+	public DataArray(final Collection<? extends Data> col) {
 		this(col.size());
 		col.toArray(values);
 	}
 
 	private void setType() {
 		if (values.length > 0)
-			type = values[0].storageType;
+			elementType = values[0].code();
 	}
 
 	@Override
-	public AbstractData[] value() {
+	public Data[] value() {
 		return values;
 	}
 
 	@Override
 	public void write(final DataOutput out) throws IOException {
-		out.writeByte(type);
+		out.writeByte(elementType);
 		out.writeInt(values.length);
 		for (int i = 0; i < values.length; i++)
 			values[i].write(out);
@@ -66,11 +62,11 @@ public class DataArray extends AbstractData<AbstractData[]> {
 
 	@Override
 	public void read(final DataInput in) throws IOException {
-		type = in.readByte();
+		elementType = in.readByte();
 		final int size = in.readInt();
-		values = new AbstractData[size];
+		values = new Data[size];
 		for (int i = 0; i < size; i++) {
-			final AbstractData data = AbstractData.create(type);
+			final Data data = TypeSystem.getTypeSystem().createByCode(elementType);
 			data.read(in);
 			values[i] = data;
 		}
@@ -92,24 +88,24 @@ public class DataArray extends AbstractData<AbstractData[]> {
 		return sb.toString();
 	}
 
-	public void add(final AbstractData data) {
+	public void add(final Data data) {
 		if (data == DataNull.INSTANCE)
 			return;
-		if (type == DataNull.TYPE)
-			type = data.storageType;
-		if (type != data.storageType)
+		if (elementType == DataNull.TYPE)
+			elementType = data.code();
+		if (elementType != data.code())
 			return;
 		values = Arrays.copyOf(values, values.length + 1);
 		values[values.length - 1] = data;
 	}
 
-	private AbstractData replace(final int index, final AbstractData data) {
-		if (type == data.storageType && index >= 0 && index < values.length)
+	private Data replace(final int index, final Data data) {
+		if (elementType == data.code() && index >= 0 && index < values.length)
 			return values[index] = data;
 		return DataNull.INSTANCE;
 	}
 
-	public AbstractData get(final int index) {
+	public Data get(final int index) {
 		if (index >= 0 && index < values.length)
 			return values[index];
 		return DataNull.INSTANCE;
@@ -120,7 +116,7 @@ public class DataArray extends AbstractData<AbstractData[]> {
 	}
 
 	@Override
-	public AbstractData<AbstractData[]> copy() {
+	public Data<Data[]> copy() {
 		return new DataArray(Arrays.copyOf(values, values.length));
 	}
 
@@ -139,26 +135,26 @@ public class DataArray extends AbstractData<AbstractData[]> {
 	}
 
 	public byte getArrayType() {
-		return type;
+		return elementType;
 	}
 
 	@Override
-	public JsonArray serialize(final AbstractData<AbstractData[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonArray serialize(final Data<Data[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonArray array = new JsonArray();
-		for (final AbstractData data : src.value())
+		for (final Data data : src.value())
 			array.add(data.serialize(data, data.getClass(), context));
 		return array;
 	}
 
 	@Override
-	public AbstractData deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public Data deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		final JsonArray jsonArray = json.getAsJsonArray();
-		final AbstractData[] array = new AbstractData[jsonArray.size()];
+		final Data[] array = new Data[jsonArray.size()];
 		boolean allDataByte = true;
 		boolean allDataInteger = true;
 		for (int i = 0; i < array.length; i++) {
 			final JsonElement element = jsonArray.get(i);
-			final AbstractData data = Serialization.serializedElement(element, element.getClass(), context);
+			final Data data = Serialization.create(element, element.getClass(), context);
 			if (data instanceof DataInteger || data instanceof DataByte)
 				allDataByte &= data instanceof DataByte;
 			else
@@ -177,5 +173,10 @@ public class DataArray extends AbstractData<AbstractData[]> {
 			return new DataIntegerArray(intsOut);
 		}
 		return new DataArray(array);
+	}
+
+	@Override
+	public byte code() {
+		return TYPE;
 	}
 }

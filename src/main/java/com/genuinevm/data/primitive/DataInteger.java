@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.AbstractData;
+import com.genuinevm.data.Data;
 import com.genuinevm.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -13,19 +13,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataInteger extends AbstractData<Integer> implements Primitive {
+public class DataInteger implements Data<Integer>, Primitive {
 
-	public static final String NAME = "INT";
-	public static final long SIZE = 32;
 	public static final byte TYPE = 3;
 	private int value;
 
-	public DataInteger() {
-		super(TYPE);
-	}
+	public DataInteger() {}
 
 	public DataInteger(final int value) {
-		super(TYPE);
 		this.value = value;
 	}
 
@@ -104,12 +99,18 @@ public class DataInteger extends AbstractData<Integer> implements Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final AbstractData<Integer> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Integer> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
 	public DataInteger deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return new DataInteger(json.getAsInt());
+	}
+
+	@Override
+	public byte code() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
