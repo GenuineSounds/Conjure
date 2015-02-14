@@ -3,13 +3,8 @@ package com.genuinevm.data;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.lang.reflect.Type;
 
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public interface Data<T> extends JsonSerializer<Data<T>>, JsonDeserializer<Data<T>> {
@@ -70,10 +65,4 @@ public interface Data<T> extends JsonSerializer<Data<T>>, JsonDeserializer<Data<
 	 * @throws IOException If an I/O error occurs.
 	 */
 	public void write(DataOutput output) throws IOException;
-
-	@Override
-	public Data<T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException;
-
-	@Override
-	public JsonElement serialize(Data<T> src, Type typeOfSrc, JsonSerializationContext context);
 }

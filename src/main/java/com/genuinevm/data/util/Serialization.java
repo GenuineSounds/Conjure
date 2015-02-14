@@ -24,8 +24,8 @@ import com.google.gson.JsonPrimitive;
 
 public class Serialization {
 
-	public static Data create(final JsonElement element, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		Data out = DataNull.INSTANCE;
+	public static Data<?> create(final JsonElement element, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+		Data<?> out = DataNull.INSTANCE;
 		if (element.isJsonObject())
 			// Push down object as DataCompound for deserialization
 			out = new DataCompound();

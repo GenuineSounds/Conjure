@@ -28,21 +28,23 @@ public class TypeSystem {
 		return TypeSystem.instance;
 	}
 
-	private final Map<Byte, Data> dataTypes = new HashMap<Byte, Data>();
+	private final Map<Byte, Data<?>> dataTypes = new HashMap<Byte, Data<?>>();
 
-	private TypeSystem() {}
+	private TypeSystem() {
+		init();
+	}
 
-	public Map<Byte, Data> getDataTypes() {
+	public Map<Byte, Data<?>> getDataTypes() {
 		return Collections.unmodifiableMap(dataTypes);
 	}
 
-	public void registerDataType(final byte type, final Data data) throws DataException {
+	public void registerDataType(final byte type, final Data<?> data) throws DataException {
 		if (dataTypes.containsKey(data.code()))
 			throw new DataException("Tried to register a data type with the same code as one already registered.", data);
 		dataTypes.put(type, data);
 	}
 
-	public Data createByCode(final byte type) {
+	public Data<?> createByCode(final byte type) {
 		if (dataTypes.containsKey(type))
 			dataTypes.get(type);
 		return DataNull.INSTANCE;

@@ -4,15 +4,15 @@ public interface Primitive {
 
 	public boolean toBoolean();
 
-	public long toLong();
-
-	public int toInt();
+	public byte toByte();
 
 	public short toShort();
 
-	public byte toByte();
+	public int toInt();
 
-	public double toDouble();
+	public long toLong();
 
 	public float toFloat();
+
+	public double toDouble();
 }

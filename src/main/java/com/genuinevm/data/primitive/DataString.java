@@ -57,7 +57,7 @@ public class DataString implements Data<String> {
 		if (super.equals(obj))
 			return true;
 		if (obj instanceof Data)
-			return value().equals(((Data) obj).value());
+			return value().equals(((Data<?>) obj).value());
 		return value().equals(obj);
 	}
 

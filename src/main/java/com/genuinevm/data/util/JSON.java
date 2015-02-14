@@ -54,7 +54,7 @@ public class JSON {
 	static {
 		JSON.GSON_BUILDER.setPrettyPrinting();
 		JSON.GSON_BUILDER.enableComplexMapKeySerialization();
-		for (final Entry<Byte, Data> entry : TypeSystem.getTypeSystem().getDataTypes().entrySet())
+		for (final Entry<Byte, Data<?>> entry : TypeSystem.getTypeSystem().getDataTypes().entrySet())
 			JSON.GSON_BUILDER.registerTypeAdapter(entry.getValue().getClass(), entry.getValue());
 		GSON = JSON.GSON_BUILDER.create();
 	}

@@ -32,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
+@SuppressWarnings("rawtypes")
 public class DataCompound implements Data<Map<String, Data>> {
 
 	public static final byte TYPE = 10;
@@ -327,6 +328,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 		return values.hashCode();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JsonObject serialize(final Data<Map<String, Data>> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonObject object = new JsonObject();

@@ -91,18 +91,18 @@ public class InputOutput {
 	}
 
 	public static DataCompound getDataCompound(final DataInput input) throws IOException {
-		final Data data = InputOutput.getData(input);
+		final Data<?> data = InputOutput.getData(input);
 		if (data instanceof DataCompound)
 			return (DataCompound) data;
 		throw new IOException("DataCompound was not the containing data type");
 	}
 
-	private static Data getData(final DataInput input) throws IOException {
+	private static Data<?> getData(final DataInput input) throws IOException {
 		final byte type = input.readByte();
 		if (type == 0)
 			return DataNull.INSTANCE;
 		input.readUTF();
-		final Data data = TypeSystem.getTypeSystem().createByCode(type);
+		final Data<?> data = TypeSystem.getTypeSystem().createByCode(type);
 		data.read(input);
 		return data;
 	}
@@ -141,7 +141,7 @@ public class InputOutput {
 		}
 	}
 
-	private static void writeToOutput(final Data data, final DataOutput output) throws IOException {
+	private static void writeToOutput(final Data<?> data, final DataOutput output) throws IOException {
 		output.writeByte(data.code());
 		if (data.code() != 0) {
 			output.writeUTF("");

@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 
+@SuppressWarnings("rawtypes")
 public class DataArray implements Data<Data[]> {
 
 	public static final byte TYPE = 9;
@@ -35,11 +36,13 @@ public class DataArray implements Data<Data[]> {
 
 	public DataArray(final Data[] array) {
 		values = array;
+		setType();
 	}
 
 	public DataArray(final Collection<? extends Data> col) {
 		this(col.size());
 		col.toArray(values);
+		setType();
 	}
 
 	private void setType() {
@@ -99,7 +102,7 @@ public class DataArray implements Data<Data[]> {
 		values[values.length - 1] = data;
 	}
 
-	private Data replace(final int index, final Data data) {
+	public Data replace(final int index, final Data data) {
 		if (elementType == data.code() && index >= 0 && index < values.length)
 			return values[index] = data;
 		return DataNull.INSTANCE;
@@ -138,6 +141,7 @@ public class DataArray implements Data<Data[]> {
 		return elementType;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JsonArray serialize(final Data<Data[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonArray array = new JsonArray();
