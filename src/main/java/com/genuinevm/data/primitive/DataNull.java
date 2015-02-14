@@ -37,7 +37,7 @@ public class DataNull implements Data<Void> {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return super.equals(INSTANCE);
+		return super.equals(DataNull.INSTANCE);
 	}
 
 	@Override
@@ -57,6 +57,6 @@ public class DataNull implements Data<Void> {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataNull.TYPE;
 	}
 }

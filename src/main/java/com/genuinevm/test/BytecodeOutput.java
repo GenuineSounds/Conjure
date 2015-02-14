@@ -23,8 +23,8 @@ public class BytecodeOutput {
 		array.add(DataBoolean.FALSE);
 		array.add(DataBoolean.FALSE);
 		array.add(DataBoolean.TRUE);
-		main.set("BigDecimal", new BigDecimal("3.14159265358979323846264338327950288419716939937510582"));
-		main.set("BigInteger", new BigInteger("2345984321896432168945165165169849913216843216897431024"));
+		main.set("BigDecimal", new BigDecimal("3.14159265358979"));
+		main.set("BigInteger", new BigInteger("2345984321431024"));
 		main.set("boolean", true);
 		main.set("byte", (byte) 36);
 		main.set("byte[]", new byte[] {
@@ -48,8 +48,8 @@ public class BytecodeOutput {
 		final char[] hexChars = new char[bytes.length * 2];
 		for (int i = 0; i < bytes.length; i++) {
 			final int v = bytes[i] & 0xFF;
-			hexChars[i * 2] = HEX[v >>> 4];
-			hexChars[i * 2 + 1] = HEX[v & 0x0F];
+			hexChars[i * 2] = BytecodeOutput.HEX[v >>> 4];
+			hexChars[i * 2 + 1] = BytecodeOutput.HEX[v & 0x0F];
 		}
 		return new String(hexChars);
 	}

@@ -78,6 +78,6 @@ public class DataString implements Data<String> {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataString.TYPE;
 	}
 }

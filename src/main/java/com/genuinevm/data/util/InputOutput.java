@@ -31,7 +31,7 @@ public class InputOutput {
 			final DataInputStream input = new DataInputStream(new FileInputStream(file));
 			DataCompound compound;
 			try {
-				compound = getDataCompound(input);
+				compound = InputOutput.getDataCompound(input);
 			}
 			finally {
 				input.close();
@@ -43,7 +43,7 @@ public class InputOutput {
 	public static void save(final DataCompound compound, final File file) throws IOException {
 		final DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
 		try {
-			writeToOutput(compound, stream);
+			InputOutput.writeToOutput(compound, stream);
 		}
 		finally {
 			stream.close();
@@ -55,7 +55,7 @@ public class InputOutput {
 			final File tmp = new File(file.getAbsolutePath() + "_tmp");
 			if (tmp.exists())
 				tmp.delete();
-			save(compound, tmp);
+			InputOutput.save(compound, tmp);
 			if (file.exists())
 				file.delete();
 			if (file.exists())
@@ -70,7 +70,7 @@ public class InputOutput {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(stream)));
 		DataCompound data;
 		try {
-			data = getDataCompound(compressed);
+			data = InputOutput.getDataCompound(compressed);
 		}
 		finally {
 			compressed.close();
@@ -82,7 +82,7 @@ public class InputOutput {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
 		DataCompound compound;
 		try {
-			compound = getDataCompound(compressed);
+			compound = InputOutput.getDataCompound(compressed);
 		}
 		finally {
 			compressed.close();
@@ -91,7 +91,7 @@ public class InputOutput {
 	}
 
 	public static DataCompound getDataCompound(final DataInput input) throws IOException {
-		final Data data = getData(input);
+		final Data data = InputOutput.getData(input);
 		if (data instanceof DataCompound)
 			return (DataCompound) data;
 		throw new IOException("DataCompound was not the containing data type");
@@ -111,7 +111,7 @@ public class InputOutput {
 		final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 		final DataOutputStream compressedOutput = new DataOutputStream(byteArray);
 		try {
-			writeToOutput(compound, compressedOutput);
+			InputOutput.writeToOutput(compound, compressedOutput);
 		}
 		finally {
 			compressedOutput.close();
@@ -123,7 +123,7 @@ public class InputOutput {
 		final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 		final DataOutputStream compressed = new DataOutputStream(new GZIPOutputStream(byteArray));
 		try {
-			writeToOutput(compound, compressed);
+			InputOutput.writeToOutput(compound, compressed);
 		}
 		finally {
 			compressed.close();
@@ -134,7 +134,7 @@ public class InputOutput {
 	public static void writeToCompressedStream(final DataCompound compound, final OutputStream stream) throws IOException {
 		final DataOutputStream output = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(stream)));
 		try {
-			writeToOutput(compound, output);
+			InputOutput.writeToOutput(compound, output);
 		}
 		finally {
 			output.close();

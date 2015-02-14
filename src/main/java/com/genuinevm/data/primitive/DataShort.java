@@ -112,6 +112,6 @@ public class DataShort implements Data<Short>, Primitive {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataShort.TYPE;
 	}
 }

@@ -112,6 +112,6 @@ public class DataFloat implements Data<Float>, Primitive {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataFloat.TYPE;
 	}
 }

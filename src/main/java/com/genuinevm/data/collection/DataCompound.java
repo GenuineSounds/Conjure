@@ -127,7 +127,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	}
 
 	public void set(final String name, final BigDecimal value) {
-		values.put(name, new DataString(value.toPlainString()));
+		values.put(name, new DataString(value.toString()));
 	}
 
 	public byte getDataCode(final String name) {
@@ -350,6 +350,6 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataCompound.TYPE;
 	}
 }

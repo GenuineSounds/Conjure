@@ -112,6 +112,6 @@ public class DataLong implements Data<Long>, Primitive {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataLong.TYPE;
 	}
 }

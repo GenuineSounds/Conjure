@@ -120,6 +120,6 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataIntegerArray.TYPE;
 	}
 }

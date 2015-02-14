@@ -111,6 +111,6 @@ public class DataDouble implements Data<Double>, Primitive {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataDouble.TYPE;
 	}
 }

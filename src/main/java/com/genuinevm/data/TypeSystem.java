@@ -23,9 +23,9 @@ public class TypeSystem {
 	private static TypeSystem instance;
 
 	public static TypeSystem getTypeSystem() {
-		if (instance == null)
-			instance = new TypeSystem();
-		return instance;
+		if (TypeSystem.instance == null)
+			TypeSystem.instance = new TypeSystem();
+		return TypeSystem.instance;
 	}
 
 	private final Map<Byte, Data> dataTypes = new HashMap<Byte, Data>();

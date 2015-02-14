@@ -110,6 +110,6 @@ public class DataByte implements Data<Byte>, Primitive {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataByte.TYPE;
 	}
 }

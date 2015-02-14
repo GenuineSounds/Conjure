@@ -40,7 +40,7 @@ public class Serialization {
 				return primitive.getAsBoolean() ? DataBoolean.TRUE : DataBoolean.FALSE;
 			else
 				try {
-					final Number number = convertToSmallestNumber(primitive.getAsNumber().toString());
+					final Number number = Serialization.convertToSmallestNumber(primitive.getAsNumber().toString());
 					// Push down primitives for deserialization
 					if (number instanceof Byte)
 						out = new DataByte();

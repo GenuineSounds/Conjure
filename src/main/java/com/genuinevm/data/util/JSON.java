@@ -24,7 +24,7 @@ public class JSON {
 			if (!file.exists())
 				file.createNewFile();
 			final Writer wr = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8"));
-			GSON.toJson(compound, DataCompound.class, wr);
+			JSON.GSON.toJson(compound, DataCompound.class, wr);
 			wr.close();
 		}
 		catch (final Exception e) {
@@ -38,7 +38,7 @@ public class JSON {
 			return out;
 		try {
 			final FileReader fr = new FileReader(file);
-			out = GSON.fromJson(fr, DataCompound.class);
+			out = JSON.GSON.fromJson(fr, DataCompound.class);
 			fr.close();
 		}
 		catch (final Exception e) {
@@ -48,14 +48,14 @@ public class JSON {
 	}
 
 	public static DataCompound thereAndBack(final DataCompound compound) {
-		return GSON.fromJson(GSON.toJson(compound), DataCompound.class);
+		return JSON.GSON.fromJson(JSON.GSON.toJson(compound), DataCompound.class);
 	}
 
 	static {
-		GSON_BUILDER.setPrettyPrinting();
-		GSON_BUILDER.enableComplexMapKeySerialization();
+		JSON.GSON_BUILDER.setPrettyPrinting();
+		JSON.GSON_BUILDER.enableComplexMapKeySerialization();
 		for (final Entry<Byte, Data> entry : TypeSystem.getTypeSystem().getDataTypes().entrySet())
-			GSON_BUILDER.registerTypeAdapter(entry.getValue().getClass(), entry.getValue());
-		GSON = GSON_BUILDER.create();
+			JSON.GSON_BUILDER.registerTypeAdapter(entry.getValue().getClass(), entry.getValue());
+		GSON = JSON.GSON_BUILDER.create();
 	}
 }

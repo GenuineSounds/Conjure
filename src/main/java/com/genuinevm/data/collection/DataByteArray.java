@@ -114,6 +114,6 @@ public class DataByteArray implements Data<byte[]>, PrimitiveArray {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataByteArray.TYPE;
 	}
 }

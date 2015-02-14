@@ -177,6 +177,6 @@ public class DataArray implements Data<Data[]> {
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataArray.TYPE;
 	}
 }

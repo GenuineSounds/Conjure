@@ -107,11 +107,11 @@ public class DataBoolean implements Data<Boolean>, Primitive {
 
 	@Override
 	public DataBoolean deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		return json.getAsBoolean() ? TRUE : FALSE;
+		return json.getAsBoolean() ? DataBoolean.TRUE : DataBoolean.FALSE;
 	}
 
 	@Override
 	public byte code() {
-		return TYPE;
+		return DataBoolean.TYPE;
 	}
 }
