@@ -15,7 +15,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataInteger implements Data<Integer>, Primitive {
 
-	public static final byte TYPE = 3;
+	public static final byte CODE = 3;
 	private int value;
 
 	public DataInteger() {}

@@ -35,7 +35,7 @@ import com.google.gson.JsonSerializationContext;
 @SuppressWarnings("rawtypes")
 public class DataCompound implements Data<Map<String, Data>> {
 
-	public static final byte TYPE = 10;
+	public static final byte CODE = 10;
 	private Map<String, Data> values = new HashMap<String, Data>();
 
 	public DataCompound() {}
@@ -79,8 +79,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	}
 
 	public void set(final String name, final Data value) {
-		if (this != value)
-			values.put(name, value);
+		values.put(name, value);
 	}
 
 	public void set(final String name, final boolean value) {
@@ -352,6 +351,6 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	@Override
 	public byte code() {
-		return DataCompound.TYPE;
+		return DataCompound.CODE;
 	}
 }

@@ -47,7 +47,7 @@ public class TypeSystem {
 	public Data<?> createByCode(final byte type) {
 		if (dataTypes.containsKey(type))
 			dataTypes.get(type);
-		return DataNull.INSTANCE;
+		return null;
 	}
 
 	private void init() {

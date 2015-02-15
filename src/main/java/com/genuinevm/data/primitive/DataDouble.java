@@ -15,7 +15,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataDouble implements Data<Double>, Primitive {
 
-	public static final byte TYPE = 6;
+	public static final byte CODE = 6;
 	private double value;
 
 	public DataDouble() {}
@@ -111,6 +111,6 @@ public class DataDouble implements Data<Double>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataDouble.TYPE;
+		return DataDouble.CODE;
 	}
 }

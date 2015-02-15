@@ -24,9 +24,9 @@ import com.google.gson.JsonSerializationContext;
 @SuppressWarnings("rawtypes")
 public class DataArray implements Data<Data[]> {
 
-	public static final byte TYPE = 9;
+	public static final byte CODE = 9;
 	private Data[] values = new Data[0];
-	private byte elementType = DataNull.TYPE;
+	private byte arrayType = DataNull.CODE;
 
 	public DataArray() {}
 
@@ -47,7 +47,7 @@ public class DataArray implements Data<Data[]> {
 
 	private void setType() {
 		if (values.length > 0)
-			elementType = values[0].code();
+			arrayType = values[0].code();
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class DataArray implements Data<Data[]> {
 
 	@Override
 	public void write(final DataOutput out) throws IOException {
-		out.writeByte(elementType);
+		out.writeByte(arrayType);
 		out.writeInt(values.length);
 		for (int i = 0; i < values.length; i++)
 			values[i].write(out);
@@ -65,13 +65,13 @@ public class DataArray implements Data<Data[]> {
 
 	@Override
 	public void read(final DataInput in) throws IOException {
-		elementType = in.readByte();
+		arrayType = in.readByte();
+		final Data template = TypeSystem.getTypeSystem().createByCode(arrayType);
 		final int size = in.readInt();
 		values = new Data[size];
 		for (int i = 0; i < size; i++) {
-			final Data data = TypeSystem.getTypeSystem().createByCode(elementType);
-			data.read(in);
-			values[i] = data;
+			values[i] = template.copy();
+			values[i].read(in);
 		}
 	}
 
@@ -92,26 +92,24 @@ public class DataArray implements Data<Data[]> {
 	}
 
 	public void add(final Data data) {
-		if (data == DataNull.INSTANCE)
-			return;
-		if (elementType == DataNull.TYPE)
-			elementType = data.code();
-		if (elementType != data.code())
+		if (arrayType == 0)
+			arrayType = data.code();
+		if (arrayType != data.code())
 			return;
 		values = Arrays.copyOf(values, values.length + 1);
 		values[values.length - 1] = data;
 	}
 
 	public Data replace(final int index, final Data data) {
-		if (elementType == data.code() && index >= 0 && index < values.length)
+		if (arrayType == data.code() && index >= 0 && index < values.length)
 			return values[index] = data;
-		return DataNull.INSTANCE;
+		return null;
 	}
 
 	public Data get(final int index) {
 		if (index >= 0 && index < values.length)
 			return values[index];
-		return DataNull.INSTANCE;
+		return null;
 	}
 
 	public int length() {
@@ -138,7 +136,7 @@ public class DataArray implements Data<Data[]> {
 	}
 
 	public byte getArrayType() {
-		return elementType;
+		return arrayType;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -181,6 +179,6 @@ public class DataArray implements Data<Data[]> {
 
 	@Override
 	public byte code() {
-		return DataArray.TYPE;
+		return DataArray.CODE;
 	}
 }

@@ -15,7 +15,7 @@ import com.google.gson.JsonSerializationContext;
 public class DataNull implements Data<Void> {
 
 	public static final DataNull INSTANCE = new DataNull();
-	public static final byte TYPE = 0;
+	public static final byte CODE = 0;
 
 	private DataNull() {}
 
@@ -57,6 +57,6 @@ public class DataNull implements Data<Void> {
 
 	@Override
 	public byte code() {
-		return DataNull.TYPE;
+		return DataNull.CODE;
 	}
 }

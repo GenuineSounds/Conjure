@@ -15,9 +15,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataLong implements Data<Long>, Primitive {
 
-	public static final String NAME = "LONG";
-	public static final long SIZE = 64;
-	public static final byte TYPE = 4;
+	public static final byte CODE = 4;
 	private long value;
 
 	public DataLong() {}
@@ -112,6 +110,6 @@ public class DataLong implements Data<Long>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataLong.TYPE;
+		return DataLong.CODE;
 	}
 }

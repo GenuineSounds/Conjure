@@ -17,7 +17,7 @@ public class DataBoolean implements Data<Boolean>, Primitive {
 
 	public static final DataBoolean TRUE = new DataBoolean(true);
 	public static final DataBoolean FALSE = new DataBoolean(false);
-	public static final byte TYPE = 12;
+	public static final byte CODE = 12;
 	private boolean value;
 
 	public DataBoolean() {}
@@ -112,6 +112,6 @@ public class DataBoolean implements Data<Boolean>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataBoolean.TYPE;
+		return DataBoolean.CODE;
 	}
 }

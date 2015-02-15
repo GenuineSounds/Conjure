@@ -15,7 +15,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataByte implements Data<Byte>, Primitive {
 
-	public static final byte TYPE = 1;
+	public static final byte CODE = 1;
 	private byte value;
 
 	public DataByte() {}
@@ -110,6 +110,6 @@ public class DataByte implements Data<Byte>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataByte.TYPE;
+		return DataByte.CODE;
 	}
 }

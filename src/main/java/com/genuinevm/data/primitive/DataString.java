@@ -16,7 +16,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataString implements Data<String> {
 
-	public static final byte TYPE = 8;
+	public static final byte CODE = 8;
 	private String value = "";
 
 	public DataString() {}
@@ -78,6 +78,6 @@ public class DataString implements Data<String> {
 
 	@Override
 	public byte code() {
-		return DataString.TYPE;
+		return DataString.CODE;
 	}
 }

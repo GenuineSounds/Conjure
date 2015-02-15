@@ -17,7 +17,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 
-	public static final byte TYPE = 11;
+	public static final byte CODE = 11;
 	private int[] value;
 
 	public DataIntegerArray() {}
@@ -120,6 +120,6 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 
 	@Override
 	public byte code() {
-		return DataIntegerArray.TYPE;
+		return DataIntegerArray.CODE;
 	}
 }

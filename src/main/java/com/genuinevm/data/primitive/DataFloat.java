@@ -15,9 +15,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataFloat implements Data<Float>, Primitive {
 
-	public static final String NAME = "FLOAT";
-	public static final long SIZE = 32;
-	public static final byte TYPE = 5;
+	public static final byte CODE = 5;
 	private float value;
 
 	public DataFloat() {}
@@ -112,6 +110,6 @@ public class DataFloat implements Data<Float>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataFloat.TYPE;
+		return DataFloat.CODE;
 	}
 }

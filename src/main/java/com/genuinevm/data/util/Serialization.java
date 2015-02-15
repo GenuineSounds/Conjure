@@ -56,7 +56,7 @@ public class Serialization {
 						out = new DataLong();
 					// If no valid number was found and pushed then check for special case.
 					// These return since the deserialization strategy is not in that Data class.
-					if (out == DataNull.INSTANCE) {
+					if (out.equals(DataNull.INSTANCE)) {
 						if (number instanceof BigInteger)
 							return new DataByteArray(primitive.getAsBigInteger().toByteArray());
 						else if (number instanceof BigDecimal)
@@ -65,7 +65,7 @@ public class Serialization {
 					}
 				}
 				catch (final NumberFormatException e) {}
-			if (out == DataNull.INSTANCE && primitive.isString())
+			if (out.equals(DataNull.INSTANCE) && primitive.isString())
 				// Push Strings for deserialization
 				out = new DataString();
 		}

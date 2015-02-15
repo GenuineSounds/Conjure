@@ -15,9 +15,7 @@ import com.google.gson.JsonSerializationContext;
 
 public class DataShort implements Data<Short>, Primitive {
 
-	public static final String NAME = "SHORT";
-	public static final long SIZE = 16;
-	public static final byte TYPE = 2;
+	public static final byte CODE = 2;
 	private short value;
 
 	public DataShort() {}
@@ -112,6 +110,6 @@ public class DataShort implements Data<Short>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataShort.TYPE;
+		return DataShort.CODE;
 	}
 }
