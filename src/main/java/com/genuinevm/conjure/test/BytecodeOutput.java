@@ -1,4 +1,4 @@
-package com.genuinevm.test;
+package com.genuinevm.conjure.test;
 
 import java.io.IOException;
 
