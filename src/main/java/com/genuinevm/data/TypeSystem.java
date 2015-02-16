@@ -31,15 +31,15 @@ public class TypeSystem {
 		init();
 	}
 
-	public void registerDataType(byte type, final Data<?> data) throws DataException {
-		int i = type & 0xFF;
+	public void registerDataType(final byte type, final Data<?> data) throws DataException {
+		final int i = type & 0xFF;
 		if (dataTypes[i] != null)
 			throw new DataException("Tried to register a data type with the same code as one already registered.", data);
 		dataTypes[i] = data;
 	}
 
-	public Data<?> createByCode(byte type) {
-		int i = type & 0xFF;
+	public Data<?> createByCode(final byte type) {
+		final int i = type & 0xFF;
 		if (dataTypes[i] != null)
 			return dataTypes[i].copy();
 		return null;

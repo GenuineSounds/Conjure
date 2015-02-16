@@ -80,21 +80,21 @@ public class InputOutput {
 
 	public static DataCompound read(final byte[] bytes) throws IOException {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(bytes)));
-		DataCompound compound = InputOutput.getDataCompound(compressed);
+		final DataCompound compound = InputOutput.getDataCompound(compressed);
 		compressed.close();
 		return compound;
 	}
 
 	public static DataCompound readCompressed(final InputStream stream) throws IOException {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(stream)));
-		DataCompound data = InputOutput.getDataCompound(compressed);
+		final DataCompound data = InputOutput.getDataCompound(compressed);
 		compressed.close();
 		return data;
 	}
 
 	public static DataCompound readCompressed(final byte[] bytes) throws IOException {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
-		DataCompound compound = InputOutput.getDataCompound(compressed);
+		final DataCompound compound = InputOutput.getDataCompound(compressed);
 		compressed.close();
 		return compound;
 	}
@@ -122,7 +122,7 @@ public class InputOutput {
 		try {
 			InputOutput.writeToOutput(compound, output);
 		}
-		catch (IOException e) {
+		catch (final IOException e) {
 			e.printStackTrace();
 		}
 		finally {
@@ -130,7 +130,7 @@ public class InputOutput {
 				output.close();
 				bytes.close();
 			}
-			catch (IOException e) {
+			catch (final IOException e) {
 				e.printStackTrace();
 			}
 		}

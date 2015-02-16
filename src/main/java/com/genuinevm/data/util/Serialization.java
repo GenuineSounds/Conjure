@@ -35,7 +35,7 @@ public class Serialization {
 			out = new DataCompound();
 		else if (element.isJsonArray())
 			// Determine collection to be used. Content aware.
-			out = determineCollection(element.getAsJsonArray(), context);
+			out = Serialization.determineCollection(element.getAsJsonArray(), context);
 		// Must be a primitive.
 		else {
 			final JsonPrimitive primitive = element.getAsJsonPrimitive();
@@ -79,7 +79,7 @@ public class Serialization {
 	@SuppressWarnings({
 			"rawtypes", "unchecked"
 	})
-	public static Data<?> determineCollection(JsonArray jsonArray, final JsonDeserializationContext context) {
+	public static Data<?> determineCollection(final JsonArray jsonArray, final JsonDeserializationContext context) {
 		// It doesn't matter what the container is if there is zero or one objects in it.
 		if (jsonArray.size() < 2)
 			return new DataArray();
@@ -90,43 +90,42 @@ public class Serialization {
 					throw new Exception();
 			return new DataArray();
 		}
-		catch (Exception e) {}
+		catch (final Exception e) {}
 		// Check for byte array.
 		try {
 			for (int i = 0; i < jsonArray.size(); i++) {
-				Data data = Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context);
+				final Data data = Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context);
 				if (!(data instanceof Primitive))
 					throw new Exception();
-				Primitive prim = (Primitive) data;
+				final Primitive prim = (Primitive) data;
 				if (!data.value().equals(prim.toByte()))
 					throw new Exception();
 			}
 			return new DataByteArray();
 		}
-		catch (Exception e) {}
+		catch (final Exception e) {}
 		// check for int array.
 		try {
 			for (int i = 0; i < jsonArray.size(); i++) {
-				Data data = Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context);
+				final Data data = Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context);
 				if (!(data instanceof Primitive))
 					throw new Exception();
-				Primitive prim = (Primitive) data;
+				final Primitive prim = (Primitive) data;
 				if (!data.value().equals(prim.toInt()))
 					throw new Exception();
 			}
 			return new DataIntegerArray();
 		}
-		catch (Exception e) {}
+		catch (final Exception e) {}
 		// Any other types to see if all are the same class.
 		try {
-			Class<? extends Data<?>> clazz = (Class<? extends Data<?>>) Serialization.create(jsonArray.get(0), jsonArray.get(0).getClass(), context).getClass();
-			for (int i = 1; i < jsonArray.size(); i++) {
+			final Class<? extends Data<?>> clazz = (Class<? extends Data<?>>) Serialization.create(jsonArray.get(0), jsonArray.get(0).getClass(), context).getClass();
+			for (int i = 1; i < jsonArray.size(); i++)
 				if (clazz != Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context).getClass())
 					throw new Exception();
-			}
 			return new DataArray();
 		}
-		catch (Exception e) {}
+		catch (final Exception e) {}
 		// Default container.
 		return new DataList();
 	}

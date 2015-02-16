@@ -213,7 +213,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	public String getString(final String name) {
 		try {
-			return values.containsKey(name) ? (values.get(name) instanceof DataString ? ((DataString) values.get(name)).value() : values.get(name).toString()) : "";
+			return values.containsKey(name) ? values.get(name) instanceof DataString ? ((DataString) values.get(name)).value() : values.get(name).toString() : "";
 		}
 		catch (final ClassCastException classcastexception) {
 			return "";
@@ -338,8 +338,8 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	@Override
 	public DataCompound deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		final Map<String, Data> map = new HashMap<String, Data>();
 		try {
+			final Map<String, Data> map = new HashMap<String, Data>();
 			for (final Entry<String, JsonElement> entry : json.getAsJsonObject().entrySet())
 				map.put(entry.getKey(), Serialization.create(entry.getValue(), entry.getValue().getClass(), context));
 			return new DataCompound(map);

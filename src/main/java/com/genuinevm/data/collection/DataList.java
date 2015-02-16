@@ -50,7 +50,7 @@ public class DataList implements Data<List<Data>>, List<Data> {
 		final int size = in.readInt();
 		values = new ArrayList<Data>();
 		for (int i = 0; i < size; i++) {
-			Data data = TypeSystem.getTypeSystem().createByCode(in.readByte()).copy();
+			final Data data = TypeSystem.getTypeSystem().createByCode(in.readByte()).copy();
 			data.read(in);
 			values.add(data);
 		}
@@ -74,7 +74,7 @@ public class DataList implements Data<List<Data>>, List<Data> {
 
 	@Override
 	public Data<List<Data>> copy() {
-		List<Data> newList = new ArrayList<Data>(values.size());
+		final List<Data> newList = new ArrayList<Data>(values.size());
 		for (int i = 0; i < newList.size(); i++)
 			newList.add(i, values.get(i).copy());
 		return new DataList(newList);
@@ -105,47 +105,59 @@ public class DataList implements Data<List<Data>>, List<Data> {
 
 	@Override
 	public DataList deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		DataList list = new DataList();
-		for (JsonElement jsonElement : json.getAsJsonArray())
-			list.add(Serialization.create(jsonElement, jsonElement.getClass(), context));
-		return list;
+		try {
+			final DataList list = new DataList();
+			for (final JsonElement jsonElement : json.getAsJsonArray())
+				list.add(Serialization.create(jsonElement, jsonElement.getClass(), context));
+			return list;
+		}
+		catch (final Exception e) {
+			throw new JsonParseException(e);
+		}
 	}
 
 	@Override
 	public byte code() {
-		return DataArray.CODE;
+		return DataList.CODE;
 	}
 
+	@Override
 	public boolean add(final Data data) {
 		return values.add(data);
 	}
 
+	@Override
 	public boolean addAll(final Collection<? extends Data> col) {
 		return values.addAll(col);
 	}
 
+	@Override
 	public Data remove(final int index) {
 		return values.remove(index);
 	}
 
+	@Override
 	public Data get(final int index) {
 		return values.get(index);
 	}
 
+	@Override
 	public int size() {
 		return values.size();
 	}
 
+	@Override
 	public Iterator<Data> iterator() {
 		return values.iterator();
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return values.isEmpty();
 	}
 
 	@Override
-	public boolean contains(Object o) {
+	public boolean contains(final Object o) {
 		return values.contains(o);
 	}
 
@@ -155,32 +167,32 @@ public class DataList implements Data<List<Data>>, List<Data> {
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a) {
+	public <T> T[] toArray(final T[] a) {
 		return values.toArray(a);
 	}
 
 	@Override
-	public boolean remove(Object o) {
+	public boolean remove(final Object o) {
 		return values.remove(o);
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> c) {
+	public boolean containsAll(final Collection<?> c) {
 		return values.containsAll(c);
 	}
 
 	@Override
-	public boolean addAll(int index, Collection<? extends Data> c) {
+	public boolean addAll(final int index, final Collection<? extends Data> c) {
 		return values.addAll(c);
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
+	public boolean removeAll(final Collection<?> c) {
 		return values.removeAll(c);
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
+	public boolean retainAll(final Collection<?> c) {
 		return values.retainAll(c);
 	}
 
@@ -190,22 +202,22 @@ public class DataList implements Data<List<Data>>, List<Data> {
 	}
 
 	@Override
-	public Data set(int index, Data data) {
+	public Data set(final int index, final Data data) {
 		return values.set(index, data);
 	}
 
 	@Override
-	public void add(int index, Data data) {
+	public void add(final int index, final Data data) {
 		values.add(index, data);
 	}
 
 	@Override
-	public int indexOf(Object o) {
+	public int indexOf(final Object o) {
 		return values.indexOf(o);
 	}
 
 	@Override
-	public int lastIndexOf(Object o) {
+	public int lastIndexOf(final Object o) {
 		return values.lastIndexOf(o);
 	}
 
@@ -215,12 +227,12 @@ public class DataList implements Data<List<Data>>, List<Data> {
 	}
 
 	@Override
-	public ListIterator<Data> listIterator(int index) {
+	public ListIterator<Data> listIterator(final int index) {
 		return values.listIterator(index);
 	}
 
 	@Override
-	public List<Data> subList(int fromIndex, int toIndex) {
+	public List<Data> subList(final int fromIndex, final int toIndex) {
 		return values.subList(fromIndex, toIndex);
 	}
 }

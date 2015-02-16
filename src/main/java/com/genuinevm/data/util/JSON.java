@@ -29,7 +29,7 @@ public class JSON {
 		}
 	}
 
-	public static String toJSON(DataCompound compound) {
+	public static String toJSON(final DataCompound compound) {
 		return JSON.GSON.toJson(compound, DataCompound.class);
 	}
 

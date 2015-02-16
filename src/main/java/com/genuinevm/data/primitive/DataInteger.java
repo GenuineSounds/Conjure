@@ -105,12 +105,16 @@ public class DataInteger implements Data<Integer>, Primitive {
 
 	@Override
 	public DataInteger deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		return new DataInteger(json.getAsInt());
+		try {
+			return new DataInteger(json.getAsInt());
+		}
+		catch (final Exception e) {
+			throw new JsonParseException(e);
+		}
 	}
 
 	@Override
 	public byte code() {
-		// TODO Auto-generated method stub
-		return 0;
+		return DataInteger.CODE;
 	}
 }

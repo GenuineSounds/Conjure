@@ -105,7 +105,12 @@ public class DataFloat implements Data<Float>, Primitive {
 
 	@Override
 	public DataFloat deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		return new DataFloat(json.getAsFloat());
+		try {
+			return new DataFloat(json.getAsFloat());
+		}
+		catch (final Exception e) {
+			throw new JsonParseException(e);
+		}
 	}
 
 	@Override

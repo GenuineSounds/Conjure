@@ -105,7 +105,12 @@ public class DataLong implements Data<Long>, Primitive {
 
 	@Override
 	public DataLong deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-		return new DataLong(json.getAsLong());
+		try {
+			return new DataLong(json.getAsLong());
+		}
+		catch (final Exception e) {
+			throw new JsonParseException(e);
+		}
 	}
 
 	@Override
