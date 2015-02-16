@@ -1,4 +1,4 @@
-package com.genuinevm.data.mc;
+package com.genuinevm.conjure.mc;
 
 public class MCToData {
 	/*
@@ -113,7 +113,7 @@ public class MCToData {
 			return create((NBTTagList) nbt);
 		if (nbt instanceof NBTTagCompound)
 			return create((NBTTagCompound) nbt);
-		throw new Exception("Could not create Data from " + nbt.getClass().getSimpleName());
+		throw new DataException("Could not create Data from " + nbt.getClass().getSimpleName());
 	}
 	*/
 }

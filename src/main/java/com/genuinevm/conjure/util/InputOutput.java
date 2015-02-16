@@ -1,4 +1,4 @@
-package com.genuinevm.data.util;
+package com.genuinevm.conjure.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,10 +17,10 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.genuinevm.data.Data;
-import com.genuinevm.data.TypeSystem;
-import com.genuinevm.data.collection.DataCompound;
-import com.genuinevm.data.primitive.DataNull;
+import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.TypeSystem;
+import com.genuinevm.conjure.collection.DataCompound;
+import com.genuinevm.conjure.primitive.DataNull;
 
 public class InputOutput {
 

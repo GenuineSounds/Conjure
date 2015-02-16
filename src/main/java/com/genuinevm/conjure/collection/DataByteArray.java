@@ -1,4 +1,4 @@
-package com.genuinevm.data.collection;
+package com.genuinevm.conjure.collection;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import com.genuinevm.data.Data;
-import com.genuinevm.data.PrimitiveArray;
+import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.PrimitiveArray;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -15,35 +15,33 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
+public class DataByteArray implements Data<byte[]>, PrimitiveArray {
 
-	public static final byte CODE = 11;
-	private int[] value;
+	public static final byte CODE = 7;
+	private byte[] value;
 
-	public DataIntegerArray() {}
+	public DataByteArray() {}
 
-	public DataIntegerArray(final int[] value) {
+	public DataByteArray(final byte[] value) {
 		this.value = value;
 	}
 
 	@Override
-	public int[] value() {
+	public byte[] value() {
 		return value;
 	}
 
 	@Override
 	public void write(final DataOutput out) throws IOException {
 		out.writeInt(value.length);
-		for (int i = 0; i < value.length; ++i)
-			out.writeInt(value[i]);
+		out.write(value);
 	}
 
 	@Override
 	public void read(final DataInput in) throws IOException {
 		final int size = in.readInt();
-		value = new int[size];
-		for (int i = 0; i < size; ++i)
-			value[i] = in.readInt();
+		value = new byte[size];
+		in.readFully(value);
 	}
 
 	@Override
@@ -63,10 +61,10 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 	}
 
 	@Override
-	public DataIntegerArray copy() {
-		final int[] value = new int[this.value.length];
+	public DataByteArray copy() {
+		final byte[] value = new byte[this.value.length];
 		System.arraycopy(this.value, 0, value, 0, this.value.length);
-		return new DataIntegerArray(value);
+		return new DataByteArray(value);
 	}
 
 	@Override
@@ -74,8 +72,8 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 		if (super.equals(obj))
 			return true;
 		if (obj instanceof PrimitiveArray)
-			return Arrays.equals(value(), ((PrimitiveArray) obj).toIntArray());
-		return obj instanceof int[] && Arrays.equals(value(), (int[]) obj);
+			return Arrays.equals(value(), ((PrimitiveArray) obj).toByteArray());
+		return obj instanceof byte[] && Arrays.equals(value(), (byte[]) obj);
 	}
 
 	@Override
@@ -84,21 +82,21 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 	}
 
 	@Override
-	public JsonArray serialize(final Data<int[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonArray serialize(final Data<byte[]> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonArray array = new JsonArray();
-		for (final int i : src.value())
-			array.add(new JsonPrimitive(i));
+		for (final byte b : src.value())
+			array.add(new JsonPrimitive(b));
 		return array;
 	}
 
 	@Override
-	public DataIntegerArray deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataByteArray deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			final JsonArray array = json.getAsJsonArray();
-			final int[] ints = new int[array.size()];
-			for (int i = 0; i < ints.length; i++)
-				ints[i] = array.get(i).getAsByte();
-			return new DataIntegerArray(ints);
+			final byte[] bytes = new byte[array.size()];
+			for (int i = 0; i < bytes.length; i++)
+				bytes[i] = array.get(i).getAsByte();
+			return new DataByteArray(bytes);
 		}
 		catch (final Exception e) {
 			throw new JsonParseException(e);
@@ -107,19 +105,19 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 
 	@Override
 	public byte[] toByteArray() {
-		final byte[] array = new byte[value.length];
-		for (int i = 0; i < array.length; i++)
-			array[i] = (byte) (value[i] & 0xFF);
-		return array;
-	}
-
-	@Override
-	public int[] toIntArray() {
 		return value;
 	}
 
 	@Override
+	public int[] toIntArray() {
+		final int[] array = new int[value.length];
+		for (int i = 0; i < array.length; i++)
+			array[i] = value[i];
+		return array;
+	}
+
+	@Override
 	public byte code() {
-		return DataIntegerArray.CODE;
+		return DataByteArray.CODE;
 	}
 }

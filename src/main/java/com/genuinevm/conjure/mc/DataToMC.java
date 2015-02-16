@@ -1,4 +1,4 @@
-package com.genuinevm.data.mc;
+package com.genuinevm.conjure.mc;
 
 public class DataToMC {
 	/*
@@ -115,7 +115,7 @@ public class DataToMC {
 			return create((DataList) nbt);
 		if (nbt instanceof DataCompound)
 			return create((DataCompound) nbt);
-		throw new Exception("No existing translation strategy was found for " + nbt.getClass().getSimpleName());
+		throw new DataException("No existing translation strategy was found for " + nbt.getClass().getSimpleName());
 	}
 	*/
 }

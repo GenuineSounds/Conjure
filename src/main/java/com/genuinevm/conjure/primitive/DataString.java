@@ -1,4 +1,4 @@
-package com.genuinevm.data.primitive;
+package com.genuinevm.conjure.primitive;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import com.genuinevm.data.Data;
+import com.genuinevm.conjure.Data;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;

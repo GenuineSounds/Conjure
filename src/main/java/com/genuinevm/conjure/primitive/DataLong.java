@@ -1,12 +1,12 @@
-package com.genuinevm.data.primitive;
+package com.genuinevm.conjure.primitive;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.Data;
-import com.genuinevm.data.Primitive;
+import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;

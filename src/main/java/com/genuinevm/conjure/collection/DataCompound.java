@@ -1,4 +1,4 @@
-package com.genuinevm.data.collection;
+package com.genuinevm.conjure.collection;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -13,19 +13,19 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import com.genuinevm.data.Data;
-import com.genuinevm.data.Primitive;
-import com.genuinevm.data.PrimitiveArray;
-import com.genuinevm.data.TypeSystem;
-import com.genuinevm.data.primitive.DataBoolean;
-import com.genuinevm.data.primitive.DataByte;
-import com.genuinevm.data.primitive.DataDouble;
-import com.genuinevm.data.primitive.DataFloat;
-import com.genuinevm.data.primitive.DataInteger;
-import com.genuinevm.data.primitive.DataLong;
-import com.genuinevm.data.primitive.DataShort;
-import com.genuinevm.data.primitive.DataString;
-import com.genuinevm.data.util.Serialization;
+import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.Primitive;
+import com.genuinevm.conjure.PrimitiveArray;
+import com.genuinevm.conjure.TypeSystem;
+import com.genuinevm.conjure.primitive.DataBoolean;
+import com.genuinevm.conjure.primitive.DataByte;
+import com.genuinevm.conjure.primitive.DataDouble;
+import com.genuinevm.conjure.primitive.DataFloat;
+import com.genuinevm.conjure.primitive.DataInteger;
+import com.genuinevm.conjure.primitive.DataLong;
+import com.genuinevm.conjure.primitive.DataShort;
+import com.genuinevm.conjure.primitive.DataString;
+import com.genuinevm.conjure.util.Serialization;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

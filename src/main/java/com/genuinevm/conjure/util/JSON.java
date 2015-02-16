@@ -1,4 +1,4 @@
-package com.genuinevm.data.util;
+package com.genuinevm.conjure.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import com.genuinevm.data.collection.DataCompound;
+import com.genuinevm.conjure.collection.DataCompound;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

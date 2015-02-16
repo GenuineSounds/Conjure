@@ -1,4 +1,4 @@
-package com.genuinevm.data;
+package com.genuinevm.conjure;
 
 public interface PrimitiveArray {
 

@@ -1,19 +1,19 @@
-package com.genuinevm.data;
+package com.genuinevm.conjure;
 
-import com.genuinevm.data.collection.DataArray;
-import com.genuinevm.data.collection.DataByteArray;
-import com.genuinevm.data.collection.DataCompound;
-import com.genuinevm.data.collection.DataIntegerArray;
-import com.genuinevm.data.collection.DataList;
-import com.genuinevm.data.primitive.DataBoolean;
-import com.genuinevm.data.primitive.DataByte;
-import com.genuinevm.data.primitive.DataDouble;
-import com.genuinevm.data.primitive.DataFloat;
-import com.genuinevm.data.primitive.DataInteger;
-import com.genuinevm.data.primitive.DataLong;
-import com.genuinevm.data.primitive.DataNull;
-import com.genuinevm.data.primitive.DataShort;
-import com.genuinevm.data.primitive.DataString;
+import com.genuinevm.conjure.collection.DataArray;
+import com.genuinevm.conjure.collection.DataByteArray;
+import com.genuinevm.conjure.collection.DataCompound;
+import com.genuinevm.conjure.collection.DataIntegerArray;
+import com.genuinevm.conjure.collection.DataList;
+import com.genuinevm.conjure.primitive.DataBoolean;
+import com.genuinevm.conjure.primitive.DataByte;
+import com.genuinevm.conjure.primitive.DataDouble;
+import com.genuinevm.conjure.primitive.DataFloat;
+import com.genuinevm.conjure.primitive.DataInteger;
+import com.genuinevm.conjure.primitive.DataLong;
+import com.genuinevm.conjure.primitive.DataNull;
+import com.genuinevm.conjure.primitive.DataShort;
+import com.genuinevm.conjure.primitive.DataString;
 
 public class TypeSystem {
 

@@ -1,52 +1,52 @@
-package com.genuinevm.data.primitive;
+package com.genuinevm.conjure.primitive;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.data.Data;
-import com.genuinevm.data.Primitive;
+import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataFloat implements Data<Float>, Primitive {
+public class DataShort implements Data<Short>, Primitive {
 
-	public static final byte CODE = 5;
-	private float value;
+	public static final byte CODE = 2;
+	private short value;
 
-	public DataFloat() {}
+	public DataShort() {}
 
-	public DataFloat(final float value) {
+	public DataShort(final short value) {
 		this.value = value;
 	}
 
 	@Override
-	public Float value() {
+	public Short value() {
 		return value;
 	}
 
 	@Override
 	public void write(final DataOutput out) throws IOException {
-		out.writeFloat(value);
+		out.writeShort(value);
 	}
 
 	@Override
 	public void read(final DataInput in) throws IOException {
-		value = in.readFloat();
+		value = in.readShort();
 	}
 
 	@Override
 	public String toString() {
-		return Float.toString(value);
+		return Short.toString(value);
 	}
 
 	@Override
-	public DataFloat copy() {
-		return new DataFloat(value);
+	public DataShort copy() {
+		return new DataShort(value);
 	}
 
 	@Override
@@ -54,13 +54,13 @@ public class DataFloat implements Data<Float>, Primitive {
 		if (super.equals(obj))
 			return true;
 		if (obj instanceof Primitive)
-			return value().equals(((Primitive) obj).toFloat());
-		return obj instanceof Number && value().equals(((Number) obj).floatValue());
+			return value().equals(((Primitive) obj).toShort());
+		return obj instanceof Number && value().equals(((Number) obj).shortValue());
 	}
 
 	@Override
 	public int hashCode() {
-		return Float.floatToIntBits(value);
+		return value;
 	}
 
 	@Override
@@ -70,22 +70,22 @@ public class DataFloat implements Data<Float>, Primitive {
 
 	@Override
 	public long toLong() {
-		return (long) value;
+		return value;
 	}
 
 	@Override
 	public int toInt() {
-		return (int) Math.floor(value) & 0xFFFFFFFF;
+		return value;
 	}
 
 	@Override
 	public short toShort() {
-		return (short) ((int) Math.floor(value) & 0xFFFF);
+		return value;
 	}
 
 	@Override
 	public byte toByte() {
-		return (byte) ((int) Math.floor(value) & 0xFF);
+		return (byte) (value & 255);
 	}
 
 	@Override
@@ -99,14 +99,14 @@ public class DataFloat implements Data<Float>, Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final Data<Float> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Short> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
-	public DataFloat deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataShort deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
-			return new DataFloat(json.getAsFloat());
+			return new DataShort(json.getAsShort());
 		}
 		catch (final Exception e) {
 			throw new JsonParseException(e);
@@ -115,6 +115,6 @@ public class DataFloat implements Data<Float>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataFloat.CODE;
+		return DataShort.CODE;
 	}
 }
