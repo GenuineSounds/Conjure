@@ -27,27 +27,16 @@ public class InputOutput {
 	public static DataCompound open(final File file) throws IOException {
 		if (!file.exists())
 			return null;
-		else {
-			final DataInputStream input = new DataInputStream(new FileInputStream(file));
-			DataCompound compound;
-			try {
-				compound = InputOutput.getDataCompound(input);
-			}
-			finally {
-				input.close();
-			}
-			return compound;
-		}
+		final DataInputStream input = new DataInputStream(new FileInputStream(file));
+		final DataCompound compound = InputOutput.getDataCompound(input);
+		input.close();
+		return compound;
 	}
 
 	public static void save(final DataCompound compound, final File file) throws IOException {
 		final DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
-		try {
-			InputOutput.writeToOutput(compound, stream);
-		}
-		finally {
-			stream.close();
-		}
+		InputOutput.writeToOutput(compound, stream);
+		stream.close();
 	}
 
 	public static void safeSave(final DataCompound compound, final File file) {
@@ -68,13 +57,8 @@ public class InputOutput {
 
 	public static DataCompound read(final InputStream stream) throws IOException {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(stream));
-		DataCompound data;
-		try {
-			data = InputOutput.getDataCompound(compressed);
-		}
-		finally {
-			compressed.close();
-		}
+		final DataCompound data = InputOutput.getDataCompound(compressed);
+		compressed.close();
 		return data;
 	}
 
@@ -122,17 +106,13 @@ public class InputOutput {
 		try {
 			InputOutput.writeToOutput(compound, output);
 		}
-		catch (final IOException e) {
-			e.printStackTrace();
-		}
+		catch (final IOException e) {}
 		finally {
 			try {
 				output.close();
 				bytes.close();
 			}
-			catch (final IOException e) {
-				e.printStackTrace();
-			}
+			catch (final IOException e) {}
 		}
 		return bytes.toByteArray();
 	}
@@ -140,31 +120,24 @@ public class InputOutput {
 	public static byte[] getCompressedBytes(final DataCompound compound) throws IOException {
 		final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 		final DataOutputStream compressed = new DataOutputStream(new GZIPOutputStream(byteArray));
-		try {
-			InputOutput.writeToOutput(compound, compressed);
-		}
-		finally {
-			compressed.close();
-		}
+		InputOutput.writeToOutput(compound, compressed);
+		compressed.close();
+		byteArray.close();
 		return byteArray.toByteArray();
 	}
 
 	public static void writeToCompressedStream(final DataCompound compound, final OutputStream stream) throws IOException {
 		final DataOutputStream output = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(stream)));
-		try {
-			InputOutput.writeToOutput(compound, output);
-		}
-		finally {
-			output.close();
-		}
+		InputOutput.writeToOutput(compound, output);
+		output.close();
 	}
 
 	private static void writeToOutput(final Data<?> data, final DataOutput output) throws IOException {
 		output.writeByte(data.code());
-		if (data.code() != 0) {
-			output.writeUTF("");
-			data.write(output);
-		}
+		if (data.code() == 0)
+			return;
+		output.writeUTF("");
+		data.write(output);
 	}
 
 	private static final char[] HEX = "0123456789ABCDEF".toCharArray();
