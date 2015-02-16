@@ -213,7 +213,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	public String getString(final String name) {
 		try {
-			return values.containsKey(name) ? ((DataString) values.get(name)).value() : "";
+			return values.containsKey(name) ? (values.get(name) instanceof DataString ? ((DataString) values.get(name)).value() : values.get(name).toString()) : "";
 		}
 		catch (final ClassCastException classcastexception) {
 			return "";

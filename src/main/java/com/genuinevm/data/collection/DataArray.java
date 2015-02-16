@@ -9,10 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.genuinevm.data.Data;
-import com.genuinevm.data.Primitive;
 import com.genuinevm.data.TypeSystem;
-import com.genuinevm.data.primitive.DataByte;
-import com.genuinevm.data.primitive.DataInteger;
 import com.genuinevm.data.primitive.DataNull;
 import com.genuinevm.data.util.Serialization;
 import com.google.gson.JsonArray;
@@ -152,27 +149,9 @@ public class DataArray implements Data<Data[]> {
 	public Data deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		final JsonArray jsonArray = json.getAsJsonArray();
 		final Data[] array = new Data[jsonArray.size()];
-		boolean allDataByte = true;
-		boolean allDataInteger = true;
 		for (int i = 0; i < array.length; i++) {
-			final JsonElement element = jsonArray.get(i);
-			final Data data = Serialization.create(element, element.getClass(), context);
-			if (data instanceof DataInteger || data instanceof DataByte)
-				allDataByte &= data instanceof DataByte;
-			else
-				allDataByte = allDataInteger = false;
-			array[i] = data;
-		}
-		if (allDataByte) {
-			final byte[] bytesOut = new byte[array.length];
-			for (int i = 0; i < array.length; i++)
-				bytesOut[i] = ((Primitive) array[i]).toByte();
-			return new DataByteArray(bytesOut);
-		} else if (allDataInteger) {
-			final int[] intsOut = new int[array.length];
-			for (int i = 0; i < array.length; i++)
-				intsOut[i] = ((Primitive) array[i]).toInt();
-			return new DataIntegerArray(intsOut);
+			JsonElement element = jsonArray.get(i);
+			array[i] = Serialization.create(element, element.getClass(), context);
 		}
 		return new DataArray(array);
 	}

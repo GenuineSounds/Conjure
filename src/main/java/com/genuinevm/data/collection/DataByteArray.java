@@ -48,10 +48,14 @@ public class DataByteArray implements Data<byte[]>, PrimitiveArray {
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append('[');
-		for (int i = 0; i < value.length; i++)
-			sb.append(String.format("%02X ", value[i]));
-		if (sb.indexOf(" ") > 0)
+		for (int i = 0; i < value.length; i++) {
+			sb.append(value[i]);
+			sb.append(", ");
+		}
+		if (sb.indexOf(", ") > 0) {
 			sb.deleteCharAt(sb.length() - 1);
+			sb.deleteCharAt(sb.length() - 1);
+		}
 		sb.append(']');
 		return sb.toString();
 	}

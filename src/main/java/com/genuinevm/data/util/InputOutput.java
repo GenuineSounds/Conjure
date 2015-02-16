@@ -66,8 +66,8 @@ public class InputOutput {
 		catch (final Exception e) {}
 	}
 
-	public static DataCompound readCompressed(final InputStream stream) throws IOException {
-		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(stream)));
+	public static DataCompound read(final InputStream stream) throws IOException {
+		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(stream));
 		DataCompound data;
 		try {
 			data = InputOutput.getDataCompound(compressed);
@@ -78,15 +78,24 @@ public class InputOutput {
 		return data;
 	}
 
+	public static DataCompound read(final byte[] bytes) throws IOException {
+		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(bytes)));
+		DataCompound compound = InputOutput.getDataCompound(compressed);
+		compressed.close();
+		return compound;
+	}
+
+	public static DataCompound readCompressed(final InputStream stream) throws IOException {
+		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(stream)));
+		DataCompound data = InputOutput.getDataCompound(compressed);
+		compressed.close();
+		return data;
+	}
+
 	public static DataCompound readCompressed(final byte[] bytes) throws IOException {
 		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
-		DataCompound compound;
-		try {
-			compound = InputOutput.getDataCompound(compressed);
-		}
-		finally {
-			compressed.close();
-		}
+		DataCompound compound = InputOutput.getDataCompound(compressed);
+		compressed.close();
 		return compound;
 	}
 
@@ -107,16 +116,25 @@ public class InputOutput {
 		return data;
 	}
 
-	public static byte[] getBytes(final DataCompound compound) throws IOException {
-		final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-		final DataOutputStream compressedOutput = new DataOutputStream(byteArray);
+	public static byte[] getBytes(final DataCompound compound) {
+		final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		final DataOutputStream output = new DataOutputStream(bytes);
 		try {
-			InputOutput.writeToOutput(compound, compressedOutput);
+			InputOutput.writeToOutput(compound, output);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 		finally {
-			compressedOutput.close();
+			try {
+				output.close();
+				bytes.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		return byteArray.toByteArray();
+		return bytes.toByteArray();
 	}
 
 	public static byte[] getCompressedBytes(final DataCompound compound) throws IOException {
@@ -147,5 +165,17 @@ public class InputOutput {
 			output.writeUTF("");
 			data.write(output);
 		}
+	}
+
+	private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+
+	public static String bytesToHex(final byte[] bytes) {
+		final char[] hexChars = new char[bytes.length * 2];
+		for (int i = 0; i < bytes.length; i++) {
+			final int v = bytes[i] & 0xFF;
+			hexChars[i * 2] = InputOutput.HEX[v >>> 4];
+			hexChars[i * 2 + 1] = InputOutput.HEX[v & 0x0F];
+		}
+		return new String(hexChars);
 	}
 }

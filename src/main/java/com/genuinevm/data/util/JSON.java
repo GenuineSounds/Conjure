@@ -6,10 +6,7 @@ import java.io.FileReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.Map.Entry;
 
-import com.genuinevm.data.Data;
-import com.genuinevm.data.TypeSystem;
 import com.genuinevm.data.collection.DataCompound;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,6 +27,10 @@ public class JSON {
 		catch (final Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String toJSON(DataCompound compound) {
+		return JSON.GSON.toJson(compound, DataCompound.class);
 	}
 
 	public static DataCompound loadFromJSON(final File file) {
@@ -54,8 +55,8 @@ public class JSON {
 	static {
 		JSON.GSON_BUILDER.setPrettyPrinting();
 		JSON.GSON_BUILDER.enableComplexMapKeySerialization();
-		for (final Entry<Byte, Data<?>> entry : TypeSystem.getTypeSystem().getDataTypes().entrySet())
-			JSON.GSON_BUILDER.registerTypeAdapter(entry.getValue().getClass(), entry.getValue());
+		// This is the only de/serializer needed since this is the only enclosing type that is serialized directly.
+		JSON.GSON_BUILDER.registerTypeAdapter(DataCompound.class, new DataCompound());
 		GSON = JSON.GSON_BUILDER.create();
 	}
 }

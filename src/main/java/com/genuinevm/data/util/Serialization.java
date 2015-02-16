@@ -5,9 +5,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.genuinevm.data.Data;
+import com.genuinevm.data.Primitive;
 import com.genuinevm.data.collection.DataArray;
 import com.genuinevm.data.collection.DataByteArray;
 import com.genuinevm.data.collection.DataCompound;
+import com.genuinevm.data.collection.DataIntegerArray;
+import com.genuinevm.data.collection.DataList;
 import com.genuinevm.data.primitive.DataBoolean;
 import com.genuinevm.data.primitive.DataByte;
 import com.genuinevm.data.primitive.DataDouble;
@@ -17,6 +20,7 @@ import com.genuinevm.data.primitive.DataLong;
 import com.genuinevm.data.primitive.DataNull;
 import com.genuinevm.data.primitive.DataShort;
 import com.genuinevm.data.primitive.DataString;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
@@ -30,8 +34,8 @@ public class Serialization {
 			// Push down object as DataCompound for deserialization
 			out = new DataCompound();
 		else if (element.isJsonArray())
-			// Push down array as DataList for deserialization
-			out = new DataArray();
+			// Determine collection to be used. Content aware.
+			out = determineCollection(element.getAsJsonArray(), context);
 		// Must be a primitive.
 		else {
 			final JsonPrimitive primitive = element.getAsJsonPrimitive();
@@ -70,6 +74,61 @@ public class Serialization {
 				out = new DataString();
 		}
 		return out.deserialize(element, out.getClass(), context);
+	}
+
+	@SuppressWarnings({
+			"rawtypes", "unchecked"
+	})
+	public static Data<?> determineCollection(JsonArray jsonArray, final JsonDeserializationContext context) {
+		// It doesn't matter what the container is if there is zero or one objects in it.
+		if (jsonArray.size() < 2)
+			return new DataArray();
+		// Check for boolean array first. This would otherwise mess up if there was one boolean in an array of other primitives.
+		try {
+			for (int i = 0; i < jsonArray.size(); i++)
+				if (!(Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context) instanceof DataBoolean))
+					throw new Exception();
+			return new DataArray();
+		}
+		catch (Exception e) {}
+		// Check for byte array.
+		try {
+			for (int i = 0; i < jsonArray.size(); i++) {
+				Data data = Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context);
+				if (!(data instanceof Primitive))
+					throw new Exception();
+				Primitive prim = (Primitive) data;
+				if (!data.value().equals(prim.toByte()))
+					throw new Exception();
+			}
+			return new DataByteArray();
+		}
+		catch (Exception e) {}
+		// check for int array.
+		try {
+			for (int i = 0; i < jsonArray.size(); i++) {
+				Data data = Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context);
+				if (!(data instanceof Primitive))
+					throw new Exception();
+				Primitive prim = (Primitive) data;
+				if (!data.value().equals(prim.toInt()))
+					throw new Exception();
+			}
+			return new DataIntegerArray();
+		}
+		catch (Exception e) {}
+		// Any other types to see if all are the same class.
+		try {
+			Class<? extends Data<?>> clazz = (Class<? extends Data<?>>) Serialization.create(jsonArray.get(0), jsonArray.get(0).getClass(), context).getClass();
+			for (int i = 1; i < jsonArray.size(); i++) {
+				if (clazz != Serialization.create(jsonArray.get(i), jsonArray.get(i).getClass(), context).getClass())
+					throw new Exception();
+			}
+			return new DataArray();
+		}
+		catch (Exception e) {}
+		// Default container.
+		return new DataList();
 	}
 
 	public static Number convertToSmallestNumber(String input) {
