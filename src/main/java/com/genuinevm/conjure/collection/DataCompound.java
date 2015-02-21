@@ -14,6 +14,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.Deserializer;
 import com.genuinevm.conjure.Primitive;
 import com.genuinevm.conjure.PrimitiveArray;
 import com.genuinevm.conjure.TypeSystem;
@@ -25,7 +26,6 @@ import com.genuinevm.conjure.primitive.DataInteger;
 import com.genuinevm.conjure.primitive.DataLong;
 import com.genuinevm.conjure.primitive.DataShort;
 import com.genuinevm.conjure.primitive.DataString;
-import com.genuinevm.conjure.util.Serialization;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -341,7 +341,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 		try {
 			final Map<String, Data> map = new HashMap<String, Data>();
 			for (final Entry<String, JsonElement> entry : json.getAsJsonObject().entrySet())
-				map.put(entry.getKey(), Serialization.create(entry.getValue(), entry.getValue().getClass(), context));
+				map.put(entry.getKey(), Deserializer.parse(entry.getValue(), entry.getValue().getClass(), context));
 			return new DataCompound(map);
 		}
 		catch (final Exception e) {

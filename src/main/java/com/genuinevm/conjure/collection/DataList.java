@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.Deserializer;
 import com.genuinevm.conjure.TypeSystem;
-import com.genuinevm.conjure.util.Serialization;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -108,7 +108,7 @@ public class DataList implements Data<List<Data>>, List<Data> {
 		try {
 			final DataList list = new DataList();
 			for (final JsonElement jsonElement : json.getAsJsonArray())
-				list.add(Serialization.create(jsonElement, jsonElement.getClass(), context));
+				list.add(Deserializer.parse(jsonElement, jsonElement.getClass(), context));
 			return list;
 		}
 		catch (final Exception e) {

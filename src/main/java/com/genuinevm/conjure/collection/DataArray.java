@@ -9,9 +9,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.genuinevm.conjure.Data;
+import com.genuinevm.conjure.Deserializer;
 import com.genuinevm.conjure.TypeSystem;
 import com.genuinevm.conjure.primitive.DataNull;
-import com.genuinevm.conjure.util.Serialization;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
@@ -152,7 +152,7 @@ public class DataArray implements Data<Data[]> {
 			final Data[] array = new Data[jsonArray.size()];
 			for (int i = 0; i < array.length; i++) {
 				final JsonElement element = jsonArray.get(i);
-				array[i] = Serialization.create(element, element.getClass(), context);
+				array[i] = Deserializer.parse(element, element.getClass(), context);
 			}
 			return new DataArray(array);
 		}
