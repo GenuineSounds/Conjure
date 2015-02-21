@@ -27,7 +27,7 @@ public class TypeSystem {
 		return TypeSystem.instance;
 	}
 
-	private final Data<?>[] dataTypes = new Data<?>[512];
+	private final Data<?>[] dataTypes = new Data<?>[256];
 
 	private TypeSystem() {
 		init();
