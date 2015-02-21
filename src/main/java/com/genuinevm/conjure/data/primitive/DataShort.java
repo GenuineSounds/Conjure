@@ -1,52 +1,52 @@
-package com.genuinevm.conjure.primitive;
+package com.genuinevm.conjure.data.primitive;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.conjure.Data;
-import com.genuinevm.conjure.Primitive;
+import com.genuinevm.conjure.data.Data;
+import com.genuinevm.conjure.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataDouble implements Data<Double>, Primitive {
+public class DataShort implements Data<Short>, Primitive {
 
-	public static final byte CODE = 6;
-	private double value;
+	public static final byte CODE = 2;
+	private short value;
 
-	public DataDouble() {}
+	public DataShort() {}
 
-	public DataDouble(final double value) {
+	public DataShort(final short value) {
 		this.value = value;
 	}
 
 	@Override
-	public Double value() {
+	public Short value() {
 		return value;
 	}
 
 	@Override
 	public void write(final DataOutput out) throws IOException {
-		out.writeDouble(value);
+		out.writeShort(value);
 	}
 
 	@Override
 	public void read(final DataInput in) throws IOException {
-		value = in.readDouble();
+		value = in.readShort();
 	}
 
 	@Override
 	public String toString() {
-		return Double.toString(value);
+		return Short.toString(value);
 	}
 
 	@Override
-	public DataDouble copy() {
-		return new DataDouble(value);
+	public DataShort copy() {
+		return new DataShort(value);
 	}
 
 	@Override
@@ -54,14 +54,13 @@ public class DataDouble implements Data<Double>, Primitive {
 		if (super.equals(obj))
 			return true;
 		if (obj instanceof Primitive)
-			return value().equals(((Primitive) obj).toDouble());
-		return obj instanceof Number && value().equals(((Number) obj).doubleValue());
+			return value().equals(((Primitive) obj).toShort());
+		return obj instanceof Number && value().equals(((Number) obj).shortValue());
 	}
 
 	@Override
 	public int hashCode() {
-		final long i = Double.doubleToLongBits(value);
-		return super.hashCode() ^ (int) (i ^ i >>> 32);
+		return value;
 	}
 
 	@Override
@@ -71,22 +70,22 @@ public class DataDouble implements Data<Double>, Primitive {
 
 	@Override
 	public long toLong() {
-		return (long) Math.floor(value);
+		return value;
 	}
 
 	@Override
 	public int toInt() {
-		return (int) Math.floor(value) & 0xFFFFFFFF;
+		return value;
 	}
 
 	@Override
 	public short toShort() {
-		return (short) ((int) Math.floor(value) & 0xFFFF);
+		return value;
 	}
 
 	@Override
 	public byte toByte() {
-		return (byte) ((int) Math.floor(value) & 0xFF);
+		return (byte) (value & 255);
 	}
 
 	@Override
@@ -96,18 +95,18 @@ public class DataDouble implements Data<Double>, Primitive {
 
 	@Override
 	public float toFloat() {
-		return (float) value;
+		return value;
 	}
 
 	@Override
-	public JsonPrimitive serialize(final Data<Double> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Short> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
-	public DataDouble deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataShort deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
-			return new DataDouble(json.getAsDouble());
+			return new DataShort(json.getAsShort());
 		}
 		catch (final Exception e) {
 			throw new JsonParseException(e);
@@ -116,6 +115,6 @@ public class DataDouble implements Data<Double>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataDouble.CODE;
+		return DataShort.CODE;
 	}
 }

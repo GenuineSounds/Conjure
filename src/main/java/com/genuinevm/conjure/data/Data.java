@@ -1,4 +1,4 @@
-package com.genuinevm.conjure;
+package com.genuinevm.conjure.data;
 
 import java.io.DataInput;
 import java.io.DataOutput;

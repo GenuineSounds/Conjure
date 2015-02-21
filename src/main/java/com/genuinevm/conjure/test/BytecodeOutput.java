@@ -2,7 +2,7 @@ package com.genuinevm.conjure.test;
 
 import java.io.IOException;
 
-import com.genuinevm.conjure.collection.DataCompound;
+import com.genuinevm.conjure.data.collection.DataCompound;
 import com.genuinevm.conjure.util.InputOutput;
 import com.genuinevm.conjure.util.JSON;
 

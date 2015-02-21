@@ -1,52 +1,52 @@
-package com.genuinevm.conjure.primitive;
+package com.genuinevm.conjure.data.primitive;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.genuinevm.conjure.Data;
-import com.genuinevm.conjure.Primitive;
+import com.genuinevm.conjure.data.Data;
+import com.genuinevm.conjure.data.Primitive;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 
-public class DataByte implements Data<Byte>, Primitive {
+public class DataLong implements Data<Long>, Primitive {
 
-	public static final byte CODE = 1;
-	private byte value;
+	public static final byte CODE = 4;
+	private long value;
 
-	public DataByte() {}
+	public DataLong() {}
 
-	public DataByte(final byte value) {
+	public DataLong(final long value) {
 		this.value = value;
 	}
 
 	@Override
-	public Byte value() {
+	public Long value() {
 		return value;
 	}
 
 	@Override
 	public void write(final DataOutput out) throws IOException {
-		out.writeByte(value);
+		out.writeLong(value);
 	}
 
 	@Override
 	public void read(final DataInput in) throws IOException {
-		value = in.readByte();
+		value = in.readLong();
 	}
 
 	@Override
 	public String toString() {
-		return Byte.toString(value);
+		return Long.toString(value);
 	}
 
 	@Override
-	public DataByte copy() {
-		return new DataByte(value);
+	public DataLong copy() {
+		return new DataLong(value);
 	}
 
 	@Override
@@ -54,13 +54,13 @@ public class DataByte implements Data<Byte>, Primitive {
 		if (super.equals(obj))
 			return true;
 		if (obj instanceof Primitive)
-			return value().equals(((Primitive) obj).toByte());
-		return obj instanceof Number && value().equals(((Number) obj).byteValue());
+			return value().equals(((Primitive) obj).toLong());
+		return obj instanceof Number && value().equals(((Number) obj).longValue());
 	}
 
 	@Override
 	public int hashCode() {
-		return value;
+		return (int) (value ^ value >>> 32);
 	}
 
 	@Override
@@ -75,17 +75,17 @@ public class DataByte implements Data<Byte>, Primitive {
 
 	@Override
 	public int toInt() {
-		return value;
+		return (int) (value & 0xFFFFFFFF);
 	}
 
 	@Override
 	public short toShort() {
-		return value;
+		return (short) (value & 0xFFFF);
 	}
 
 	@Override
 	public byte toByte() {
-		return value;
+		return (byte) (value & 0xFF);
 	}
 
 	@Override
@@ -99,14 +99,14 @@ public class DataByte implements Data<Byte>, Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final Data<Byte> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Long> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
 	@Override
-	public DataByte deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataLong deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
-			return new DataByte(json.getAsByte());
+			return new DataLong(json.getAsLong());
 		}
 		catch (final Exception e) {
 			throw new JsonParseException(e);
@@ -115,6 +115,6 @@ public class DataByte implements Data<Byte>, Primitive {
 
 	@Override
 	public byte code() {
-		return DataByte.CODE;
+		return DataLong.CODE;
 	}
 }

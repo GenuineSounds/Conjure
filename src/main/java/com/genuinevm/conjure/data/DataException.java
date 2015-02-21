@@ -1,4 +1,4 @@
-package com.genuinevm.conjure;
+package com.genuinevm.conjure.data;
 
 public class DataException extends Exception {
 

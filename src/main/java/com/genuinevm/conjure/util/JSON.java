@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
-import com.genuinevm.conjure.collection.DataCompound;
+import com.genuinevm.conjure.data.collection.DataCompound;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

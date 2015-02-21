@@ -1,4 +1,4 @@
-package com.genuinevm.conjure.collection;
+package com.genuinevm.conjure.data.collection;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import com.genuinevm.conjure.Data;
-import com.genuinevm.conjure.PrimitiveArray;
+import com.genuinevm.conjure.data.Data;
+import com.genuinevm.conjure.data.PrimitiveArray;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
