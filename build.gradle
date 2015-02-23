@@ -3,12 +3,13 @@ apply plugin: 'eclipse'
 apply plugin: 'application'
 
 repositories {
-    jcenter()
+	jcenter()
+	mavenCentral()
 }
 
 jar {
-    baseName = 'Conjure'
-    version =  '1.0.1'
+	baseName = 'Conjure'
+	version =  '1.0.1'
 }
 
 dependencies {
