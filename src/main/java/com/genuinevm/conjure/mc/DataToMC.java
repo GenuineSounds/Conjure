@@ -1,7 +1,19 @@
 package com.genuinevm.conjure.mc;
 
+import java.util.Map.Entry;
+
+import com.genuinevm.conjure.data.Data;
+import com.genuinevm.conjure.data.DataException;
+import com.genuinevm.conjure.data.Primitive;
+import com.genuinevm.conjure.data.PrimitiveArray;
+import com.genuinevm.conjure.data.collection.*;
+import com.genuinevm.conjure.data.primitive.*;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.*;
+
 public class DataToMC {
-	/*
+
 	public static ItemStack createItemStack(final DataCompound compound) {
 		return ItemStack.loadItemStackFromNBT(create(compound));
 	}
@@ -51,71 +63,73 @@ public class DataToMC {
 	}
 
 	public static NBTTagList create(final DataArray nbt) {
-		final NBTTagList list = new NBTTagList();
-		final int count = nbt.size();
-		switch (nbt.getListType()) {
-			case 6:
-				for (int i = 0; i < count; i++)
-					list.appendTag(new NBTTagDouble(nbt.getDouble(i)));
-				break;
-			case 5:
-				for (int i = 0; i < count; i++)
-					list.appendTag(new NBTTagFloat(nbt.getFloat(i)));
-				break;
-			case 8:
-				for (int i = 0; i < count; i++)
-					list.appendTag(new NBTTagString(nbt.getString(i)));
-				break;
-			case 10:
-				for (int i = 0; i < count; i++)
-					list.appendTag(create(nbt.getCompound(i)));
-				break;
-			case 11:
-				for (int i = 0; i < count; i++)
-					list.appendTag(new NBTTagIntArray(nbt.getIntegerArray(i)));
-				break;
+		final NBTTagList tagList = new NBTTagList();
+		final int count = nbt.length();
+		switch (nbt.getArrayType()) {
+		case 6:
+			for (int i = 0; i < count; i++)
+				tagList.appendTag(new NBTTagDouble(((Primitive) nbt.get(i)).toDouble()));
+			break;
+		case 5:
+			for (int i = 0; i < count; i++)
+				tagList.appendTag(new NBTTagFloat(((Primitive) nbt.get(i)).toFloat()));
+			break;
+		case 8:
+			for (int i = 0; i < count; i++)
+				tagList.appendTag(new NBTTagString(nbt.get(i).toString()));
+			break;
+		case 10:
+			for (int i = 0; i < count; i++)
+				try {
+					tagList.appendTag(create(nbt.get(i)));
+				}
+				catch (Exception e) {}
+			break;
+		case 11:
+			for (int i = 0; i < count; i++)
+				tagList.appendTag(new NBTTagIntArray(((PrimitiveArray) nbt.get(i)).toIntArray()));
+			break;
 		}
-		return list;
+		return tagList;
 	}
 
-	public static NBTTagCompound create(final DataCompound nbt) {
-		final NBTTagCompound compound = new NBTTagCompound();
-		for (final Entry<String, AbstractData> key : nbt.value().entrySet())
+	public static NBTTagCompound create(final DataCompound compound) {
+		final NBTTagCompound tag = new NBTTagCompound();
+		for (final Entry<String, Data> key : compound.value().entrySet())
 			try {
-				compound.setTag(key.getKey(), create(key.getValue()));
+				tag.setTag(key.getKey(), create(key.getValue()));
 			}
 			catch (Exception e) {}
-		return compound;
+		return tag;
 	}
 
-	public static NBTBase create(final AbstractData<?> nbt) throws Exception {
-		if (nbt instanceof DataNull)
-			return create((DataNull) nbt);
-		if (nbt instanceof DataBoolean)
-			return create((DataBoolean) nbt);
-		if (nbt instanceof DataByte)
-			return create((DataByte) nbt);
-		if (nbt instanceof DataShort)
-			return create((DataShort) nbt);
-		if (nbt instanceof DataInteger)
-			return create((DataInteger) nbt);
-		if (nbt instanceof DataFloat)
-			return create((DataFloat) nbt);
-		if (nbt instanceof DataDouble)
-			return create((DataDouble) nbt);
-		if (nbt instanceof DataLong)
-			return create((DataLong) nbt);
-		if (nbt instanceof DataString)
-			return create((DataString) nbt);
-		if (nbt instanceof DataByteArray)
-			return create((DataByteArray) nbt);
-		if (nbt instanceof DataIntegerArray)
-			return create((DataIntegerArray) nbt);
-		if (nbt instanceof DataList)
-			return create((DataList) nbt);
-		if (nbt instanceof DataCompound)
-			return create((DataCompound) nbt);
-		throw new DataException("No existing translation strategy was found for " + nbt.getClass().getSimpleName());
+	public static NBTBase create(final Data<?> data) throws Exception {
+		if (data instanceof DataNull)
+			return create((DataNull) data);
+		if (data instanceof DataBoolean)
+			return create((DataBoolean) data);
+		if (data instanceof DataByte)
+			return create((DataByte) data);
+		if (data instanceof DataShort)
+			return create((DataShort) data);
+		if (data instanceof DataInteger)
+			return create((DataInteger) data);
+		if (data instanceof DataFloat)
+			return create((DataFloat) data);
+		if (data instanceof DataDouble)
+			return create((DataDouble) data);
+		if (data instanceof DataLong)
+			return create((DataLong) data);
+		if (data instanceof DataString)
+			return create((DataString) data);
+		if (data instanceof DataByteArray)
+			return create((DataByteArray) data);
+		if (data instanceof DataIntegerArray)
+			return create((DataIntegerArray) data);
+		if (data instanceof DataList)
+			return create((DataList) data);
+		if (data instanceof DataCompound)
+			return create((DataCompound) data);
+		throw new DataException("No existing translation strategy was found for " + data.getClass().getSimpleName(), data);
 	}
-	*/
 }

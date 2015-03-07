@@ -1,7 +1,16 @@
 package com.genuinevm.conjure.mc;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTBase.NBTPrimitive;
+
+import com.genuinevm.conjure.data.Data;
+import com.genuinevm.conjure.data.DataException;
+import com.genuinevm.conjure.data.collection.*;
+import com.genuinevm.conjure.data.primitive.*;
+
 public class MCToData {
-	/*
+
 	public static DataCompound create(final ItemStack stack) {
 		return create(stack.writeToNBT(new NBTTagCompound()));
 	}
@@ -50,26 +59,26 @@ public class MCToData {
 		final DataArray list = new DataArray();
 		final int count = nbt.tagCount();
 		switch (nbt.func_150303_d()) {
-			case 6:
-				for (int i = 0; i < count; i++)
-					list.add(new DataDouble(nbt.func_150309_d(i)));
-				break;
-			case 5:
-				for (int i = 0; i < count; i++)
-					list.add(new DataFloat(nbt.func_150308_e(i)));
-				break;
-			case 8:
-				for (int i = 0; i < count; i++)
-					list.add(new DataString(nbt.getStringTagAt(i)));
-				break;
-			case 10:
-				for (int i = 0; i < count; i++)
-					list.add(create(nbt.getCompoundTagAt(i)));
-				break;
-			case 11:
-				for (int i = 0; i < count; i++)
-					list.add(new DataIntegerArray(nbt.func_150306_c(i)));
-				break;
+		case 6:
+			for (int i = 0; i < count; i++)
+				list.add(new DataDouble(nbt.func_150309_d(i)));
+			break;
+		case 5:
+			for (int i = 0; i < count; i++)
+				list.add(new DataFloat(nbt.func_150308_e(i)));
+			break;
+		case 8:
+			for (int i = 0; i < count; i++)
+				list.add(new DataString(nbt.getStringTagAt(i)));
+			break;
+		case 10:
+			for (int i = 0; i < count; i++)
+				list.add(create(nbt.getCompoundTagAt(i)));
+			break;
+		case 11:
+			for (int i = 0; i < count; i++)
+				list.add(new DataIntegerArray(nbt.func_150306_c(i)));
+			break;
 		}
 		return list;
 	}
@@ -88,7 +97,7 @@ public class MCToData {
 		return new DataBoolean(nbt.func_150290_f() != 0);
 	}
 
-	public static AbstractData<?> create(final NBTBase nbt) throws Exception {
+	public static Data<?> create(final NBTBase nbt) throws Exception {
 		if (nbt instanceof NBTTagEnd)
 			return create((NBTTagEnd) nbt);
 		if (nbt instanceof NBTTagByte)
@@ -113,7 +122,6 @@ public class MCToData {
 			return create((NBTTagList) nbt);
 		if (nbt instanceof NBTTagCompound)
 			return create((NBTTagCompound) nbt);
-		throw new DataException("Could not create Data from " + nbt.getClass().getSimpleName());
+		throw new DataException("Could not create Data from " + nbt.getClass().getSimpleName(), null);
 	}
-	*/
 }
