@@ -105,7 +105,8 @@ public class DataDouble implements Data<Double>, Primitive {
 	}
 
 	@Override
-	public DataDouble deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataDouble deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+			throws JsonParseException {
 		try {
 			return new DataDouble(json.getAsDouble());
 		}

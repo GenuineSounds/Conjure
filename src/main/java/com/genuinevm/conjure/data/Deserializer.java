@@ -25,7 +25,8 @@ import com.google.gson.JsonPrimitive;
 
 public class Deserializer {
 
-	public static Data<?> parse(final JsonElement element, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public static Data<?> parse(final JsonElement element, final Type typeOfT, final JsonDeserializationContext context)
+			throws JsonParseException {
 		if (element.isJsonObject())
 			return new DataCompound().deserialize(element, DataCompound.class, context);
 		if (element.isJsonArray())
@@ -42,7 +43,8 @@ public class Deserializer {
 
 	private static Data<?> determineNumber(final JsonPrimitive primitive, final JsonDeserializationContext context) {
 		final String strNumber = primitive.getAsNumber().toString();
-		final Class<? extends Number> number = strNumber.contains(".") ? Deserializer.handleFloatingPoint(strNumber) : Deserializer.handleInteger(strNumber);
+		final Class<? extends Number> number = strNumber.contains(".") ? Deserializer.handleFloatingPoint(strNumber)
+				: Deserializer.handleInteger(strNumber);
 		if (number == Byte.class)
 			return new DataByte().deserialize(primitive, DataByte.class, context);
 		if (number == Short.class)
@@ -109,7 +111,8 @@ public class Deserializer {
 
 	@SuppressWarnings("rawtypes")
 	private static boolean isArray(final JsonArray jsonArray, final JsonDeserializationContext context) {
-		final Class<? extends Data> clazz = Deserializer.parse(jsonArray.get(0), jsonArray.get(0).getClass(), context).getClass();
+		final Class<? extends Data> clazz = Deserializer.parse(jsonArray.get(0), jsonArray.get(0).getClass(), context)
+				.getClass();
 		for (int i = 1; i < jsonArray.size(); i++)
 			if (clazz != Deserializer.parse(jsonArray.get(i), jsonArray.get(i).getClass(), context).getClass())
 				return false;

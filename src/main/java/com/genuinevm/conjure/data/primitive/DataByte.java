@@ -104,7 +104,8 @@ public class DataByte implements Data<Byte>, Primitive {
 	}
 
 	@Override
-	public DataByte deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataByte deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+			throws JsonParseException {
 		try {
 			return new DataByte(json.getAsByte());
 		}

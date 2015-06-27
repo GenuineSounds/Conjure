@@ -104,7 +104,8 @@ public class DataList implements Data<List<Data>>, List<Data> {
 	}
 
 	@Override
-	public DataList deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataList deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+			throws JsonParseException {
 		try {
 			final DataList list = new DataList();
 			for (final JsonElement jsonElement : json.getAsJsonArray())

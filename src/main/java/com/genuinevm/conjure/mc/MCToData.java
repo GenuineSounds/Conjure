@@ -1,13 +1,36 @@
 package com.genuinevm.conjure.mc;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTBase.NBTPrimitive;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagByteArray;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagEnd;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagIntArray;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.nbt.NBTTagString;
 
 import com.genuinevm.conjure.data.Data;
 import com.genuinevm.conjure.data.DataException;
-import com.genuinevm.conjure.data.collection.*;
-import com.genuinevm.conjure.data.primitive.*;
+import com.genuinevm.conjure.data.collection.DataArray;
+import com.genuinevm.conjure.data.collection.DataByteArray;
+import com.genuinevm.conjure.data.collection.DataCompound;
+import com.genuinevm.conjure.data.collection.DataIntegerArray;
+import com.genuinevm.conjure.data.primitive.DataBoolean;
+import com.genuinevm.conjure.data.primitive.DataByte;
+import com.genuinevm.conjure.data.primitive.DataDouble;
+import com.genuinevm.conjure.data.primitive.DataFloat;
+import com.genuinevm.conjure.data.primitive.DataInteger;
+import com.genuinevm.conjure.data.primitive.DataLong;
+import com.genuinevm.conjure.data.primitive.DataNull;
+import com.genuinevm.conjure.data.primitive.DataShort;
+import com.genuinevm.conjure.data.primitive.DataString;
 
 public class MCToData {
 

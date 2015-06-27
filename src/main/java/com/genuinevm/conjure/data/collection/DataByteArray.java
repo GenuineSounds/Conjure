@@ -90,7 +90,8 @@ public class DataByteArray implements Data<byte[]>, PrimitiveArray {
 	}
 
 	@Override
-	public DataByteArray deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataByteArray deserialize(final JsonElement json, final Type typeOfT,
+			final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			final JsonArray array = json.getAsJsonArray();
 			final byte[] bytes = new byte[array.size()];

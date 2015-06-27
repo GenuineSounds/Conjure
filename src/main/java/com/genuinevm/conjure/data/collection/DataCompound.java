@@ -213,7 +213,8 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	public String getString(final String name) {
 		try {
-			return values.containsKey(name) ? values.get(name) instanceof DataString ? ((DataString) values.get(name)).value() : values.get(name).toString() : "";
+			return values.containsKey(name) ? (values.get(name) instanceof DataString ? ((DataString) values.get(name))
+					.value() : values.get(name).toString()) : "";
 		}
 		catch (final ClassCastException classcastexception) {
 			return "";
@@ -240,7 +241,8 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	public BigInteger getBigInteger(final String name) {
 		try {
-			return values.containsKey(name) ? new BigInteger(((DataByteArray) values.get(name)).value()) : new BigInteger("0");
+			return values.containsKey(name) ? new BigInteger(((DataByteArray) values.get(name)).value())
+					: new BigInteger("0");
 		}
 		catch (final ClassCastException e) {
 			return new BigInteger("0");
@@ -249,7 +251,8 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	public BigDecimal getBigDecimal(final String name) {
 		try {
-			return values.containsKey(name) ? new BigDecimal(((DataString) values.get(name)).value()) : new BigDecimal("0");
+			return values.containsKey(name) ? new BigDecimal(((DataString) values.get(name)).value()) : new BigDecimal(
+					"0");
 		}
 		catch (final ClassCastException e) {
 			return new BigDecimal("0");
@@ -329,15 +332,18 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JsonObject serialize(final Data<Map<String, Data>> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonObject serialize(final Data<Map<String, Data>> src, final Type typeOfSrc,
+			final JsonSerializationContext context) {
 		final JsonObject object = new JsonObject();
 		for (final Entry<String, Data> entry : src.value().entrySet())
-			object.add(entry.getKey(), entry.getValue().serialize(entry.getValue(), entry.getValue().getClass(), context));
+			object.add(entry.getKey(),
+					entry.getValue().serialize(entry.getValue(), entry.getValue().getClass(), context));
 		return object;
 	}
 
 	@Override
-	public DataCompound deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
+	public DataCompound deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
+			throws JsonParseException {
 		try {
 			final Map<String, Data> map = new HashMap<String, Data>();
 			for (final Entry<String, JsonElement> entry : json.getAsJsonObject().entrySet())
