@@ -55,7 +55,8 @@ public class JSON {
 	static {
 		JSON.GSON_BUILDER.setPrettyPrinting();
 		JSON.GSON_BUILDER.enableComplexMapKeySerialization();
-		// This is the only de/serializer needed since this is the only enclosing type that is serialized directly.
+		// This is the only de/serializer needed since this is the only
+		// enclosing type that is serialized directly.
 		JSON.GSON_BUILDER.registerTypeAdapter(DataCompound.class, new DataCompound());
 		GSON = JSON.GSON_BUILDER.create();
 	}

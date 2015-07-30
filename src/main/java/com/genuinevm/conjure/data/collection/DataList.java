@@ -96,7 +96,8 @@ public class DataList implements Data<List<Data>>, List<Data> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JsonArray serialize(final Data<List<Data>> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonArray serialize(final Data<List<Data>> src, final Type typeOfSrc,
+			final JsonSerializationContext context) {
 		final JsonArray array = new JsonArray();
 		for (final Data data : src.value())
 			array.add(data.serialize(data, data.getClass(), context));

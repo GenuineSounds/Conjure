@@ -36,7 +36,8 @@ public class TypeSystem {
 	public void registerDataType(final byte type, final Data<?> data) throws DataException {
 		final int i = type & 0xFF;
 		if (dataTypes[i] != null)
-			throw new DataException("Tried to register a data type with the same code as one already registered.", data);
+			throw new DataException("Tried to register a data type with the same code as one already registered.",
+					data);
 		dataTypes[i] = data;
 	}
 

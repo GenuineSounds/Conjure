@@ -2,21 +2,6 @@ package com.genuinevm.conjure.mc;
 
 import java.util.Map.Entry;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagEnd;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagLong;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
-
 import com.genuinevm.conjure.data.Data;
 import com.genuinevm.conjure.data.DataException;
 import com.genuinevm.conjure.data.Primitive;
@@ -35,6 +20,21 @@ import com.genuinevm.conjure.data.primitive.DataLong;
 import com.genuinevm.conjure.data.primitive.DataNull;
 import com.genuinevm.conjure.data.primitive.DataShort;
 import com.genuinevm.conjure.data.primitive.DataString;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagByteArray;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagEnd;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagIntArray;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.nbt.NBTTagString;
 
 public class DataToMC {
 
@@ -117,6 +117,7 @@ public class DataToMC {
 		return tagList;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static NBTTagCompound create(final DataCompound compound) {
 		final NBTTagCompound tag = new NBTTagCompound();
 		for (final Entry<String, Data> key : compound.value().entrySet())

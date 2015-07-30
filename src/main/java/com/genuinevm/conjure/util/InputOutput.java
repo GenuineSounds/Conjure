@@ -63,7 +63,8 @@ public class InputOutput {
 	}
 
 	public static DataCompound read(final byte[] bytes) throws IOException {
-		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(bytes)));
+		final DataInputStream compressed = new DataInputStream(
+				new BufferedInputStream(new ByteArrayInputStream(bytes)));
 		final DataCompound compound = InputOutput.getDataCompound(compressed);
 		compressed.close();
 		return compound;
@@ -77,8 +78,8 @@ public class InputOutput {
 	}
 
 	public static DataCompound readCompressed(final byte[] bytes) throws IOException {
-		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(
-				new ByteArrayInputStream(bytes))));
+		final DataInputStream compressed = new DataInputStream(
+				new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
 		final DataCompound compound = InputOutput.getDataCompound(compressed);
 		compressed.close();
 		return compound;

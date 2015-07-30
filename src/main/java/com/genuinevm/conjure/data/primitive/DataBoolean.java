@@ -101,7 +101,8 @@ public class DataBoolean implements Data<Boolean>, Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final Data<Boolean> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Boolean> src, final Type typeOfSrc,
+			final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 

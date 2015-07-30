@@ -99,7 +99,8 @@ public class DataShort implements Data<Short>, Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final Data<Short> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Short> src, final Type typeOfSrc,
+			final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 

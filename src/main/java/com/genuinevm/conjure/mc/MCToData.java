@@ -1,21 +1,5 @@
 package com.genuinevm.conjure.mc;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTBase.NBTPrimitive;
-import net.minecraft.nbt.NBTTagByte;
-import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagDouble;
-import net.minecraft.nbt.NBTTagEnd;
-import net.minecraft.nbt.NBTTagFloat;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagLong;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
-
 import com.genuinevm.conjure.data.Data;
 import com.genuinevm.conjure.data.DataException;
 import com.genuinevm.conjure.data.collection.DataArray;
@@ -32,6 +16,22 @@ import com.genuinevm.conjure.data.primitive.DataNull;
 import com.genuinevm.conjure.data.primitive.DataShort;
 import com.genuinevm.conjure.data.primitive.DataString;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTBase.NBTPrimitive;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagByteArray;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagEnd;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagIntArray;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.nbt.NBTTagString;
+
 public class MCToData {
 
 	public static DataCompound create(final ItemStack stack) {
@@ -43,52 +43,52 @@ public class MCToData {
 	}
 
 	public static DataByte create(final NBTTagByte nbt) {
-		return new DataByte(nbt.func_150290_f());
+		return new DataByte(nbt.getByte());
 	}
 
 	public static DataShort create(final NBTTagShort nbt) {
-		return new DataShort(nbt.func_150289_e());
+		return new DataShort(nbt.getShort());
 	}
 
 	public static DataInteger create(final NBTTagInt nbt) {
-		return new DataInteger(nbt.func_150287_d());
+		return new DataInteger(nbt.getInt());
 	}
 
 	public static DataFloat create(final NBTTagFloat nbt) {
-		return new DataFloat(nbt.func_150288_h());
+		return new DataFloat(nbt.getFloat());
 	}
 
 	public static DataDouble create(final NBTTagDouble nbt) {
-		return new DataDouble(nbt.func_150286_g());
+		return new DataDouble(nbt.getDouble());
 	}
 
 	public static DataLong create(final NBTTagLong nbt) {
-		return new DataLong(nbt.func_150291_c());
+		return new DataLong(nbt.getLong());
 	}
 
 	public static DataString create(final NBTTagString nbt) {
-		return new DataString(nbt.func_150285_a_());
+		return new DataString(nbt.getString());
 	}
 
 	public static DataIntegerArray create(final NBTTagIntArray nbt) {
-		return new DataIntegerArray(nbt.func_150302_c());
+		return new DataIntegerArray(nbt.getIntArray());
 	}
 
 	public static DataByteArray create(final NBTTagByteArray nbt) {
-		return new DataByteArray(nbt.func_150292_c());
+		return new DataByteArray(nbt.getByteArray());
 	}
 
 	public static DataArray create(final NBTTagList nbt) {
 		final DataArray list = new DataArray();
 		final int count = nbt.tagCount();
-		switch (nbt.func_150303_d()) {
+		switch (nbt.getId()) {
 		case 6:
 			for (int i = 0; i < count; i++)
-				list.add(new DataDouble(nbt.func_150309_d(i)));
+				list.add(new DataDouble(nbt.getDouble(i)));
 			break;
 		case 5:
 			for (int i = 0; i < count; i++)
-				list.add(new DataFloat(nbt.func_150308_e(i)));
+				list.add(new DataFloat(nbt.getFloat(i)));
 			break;
 		case 8:
 			for (int i = 0; i < count; i++)
@@ -100,7 +100,7 @@ public class MCToData {
 			break;
 		case 11:
 			for (int i = 0; i < count; i++)
-				list.add(new DataIntegerArray(nbt.func_150306_c(i)));
+				list.add(new DataIntegerArray(nbt.getIntArray(i)));
 			break;
 		}
 		return list;
@@ -108,7 +108,7 @@ public class MCToData {
 
 	public static DataCompound create(final NBTTagCompound nbt) {
 		final DataCompound compound = new DataCompound();
-		for (final Object key : nbt.func_150296_c())
+		for (final Object key : nbt.getKeySet())
 			try {
 				compound.set((String) key, create(nbt.getTag((String) key)));
 			}
@@ -117,7 +117,7 @@ public class MCToData {
 	}
 
 	public static DataBoolean create(final NBTPrimitive nbt) {
-		return new DataBoolean(nbt.func_150290_f() != 0);
+		return new DataBoolean(nbt.getByte() != 0);
 	}
 
 	public static Data<?> create(final NBTBase nbt) throws Exception {

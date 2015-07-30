@@ -99,7 +99,8 @@ public class DataInteger implements Data<Integer>, Primitive {
 	}
 
 	@Override
-	public JsonPrimitive serialize(final Data<Integer> src, final Type typeOfSrc, final JsonSerializationContext context) {
+	public JsonPrimitive serialize(final Data<Integer> src, final Type typeOfSrc,
+			final JsonSerializationContext context) {
 		return new JsonPrimitive(src.value());
 	}
 
