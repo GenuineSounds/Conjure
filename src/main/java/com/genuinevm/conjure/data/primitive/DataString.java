@@ -72,12 +72,10 @@ public class DataString implements Data<String> {
 	}
 
 	@Override
-	public DataString deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-			throws JsonParseException {
+	public DataString deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			return new DataString(json.getAsString());
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new JsonParseException(e);
 		}
 	}

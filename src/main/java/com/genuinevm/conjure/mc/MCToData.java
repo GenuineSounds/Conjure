@@ -82,26 +82,26 @@ public class MCToData {
 		final DataArray list = new DataArray();
 		final int count = nbt.tagCount();
 		switch (nbt.func_150303_d()) {
-		case 6:
-			for (int i = 0; i < count; i++)
-				list.add(new DataDouble(nbt.func_150309_d(i)));
-			break;
-		case 5:
-			for (int i = 0; i < count; i++)
-				list.add(new DataFloat(nbt.func_150308_e(i)));
-			break;
-		case 8:
-			for (int i = 0; i < count; i++)
-				list.add(new DataString(nbt.getStringTagAt(i)));
-			break;
-		case 10:
-			for (int i = 0; i < count; i++)
-				list.add(create(nbt.getCompoundTagAt(i)));
-			break;
-		case 11:
-			for (int i = 0; i < count; i++)
-				list.add(new DataIntegerArray(nbt.func_150306_c(i)));
-			break;
+			case 6:
+				for (int i = 0; i < count; i++)
+					list.add(new DataDouble(nbt.func_150309_d(i)));
+				break;
+			case 5:
+				for (int i = 0; i < count; i++)
+					list.add(new DataFloat(nbt.func_150308_e(i)));
+				break;
+			case 8:
+				for (int i = 0; i < count; i++)
+					list.add(new DataString(nbt.getStringTagAt(i)));
+				break;
+			case 10:
+				for (int i = 0; i < count; i++)
+					list.add(create(nbt.getCompoundTagAt(i)));
+				break;
+			case 11:
+				for (int i = 0; i < count; i++)
+					list.add(new DataIntegerArray(nbt.func_150306_c(i)));
+				break;
 		}
 		return list;
 	}
@@ -111,8 +111,7 @@ public class MCToData {
 		for (final Object key : nbt.func_150296_c())
 			try {
 				compound.set((String) key, create(nbt.getTag((String) key)));
-			}
-			catch (final Exception e) {}
+			} catch (final Exception e) {}
 		return compound;
 	}
 

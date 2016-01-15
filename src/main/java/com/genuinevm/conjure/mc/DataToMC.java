@@ -90,29 +90,28 @@ public class DataToMC {
 		final NBTTagList tagList = new NBTTagList();
 		final int count = nbt.length();
 		switch (nbt.getArrayType()) {
-		case 6:
-			for (int i = 0; i < count; i++)
-				tagList.appendTag(new NBTTagDouble(((Primitive) nbt.get(i)).toDouble()));
-			break;
-		case 5:
-			for (int i = 0; i < count; i++)
-				tagList.appendTag(new NBTTagFloat(((Primitive) nbt.get(i)).toFloat()));
-			break;
-		case 8:
-			for (int i = 0; i < count; i++)
-				tagList.appendTag(new NBTTagString(nbt.get(i).toString()));
-			break;
-		case 10:
-			for (int i = 0; i < count; i++)
-				try {
-					tagList.appendTag(create(nbt.get(i)));
-				}
-				catch (Exception e) {}
-			break;
-		case 11:
-			for (int i = 0; i < count; i++)
-				tagList.appendTag(new NBTTagIntArray(((PrimitiveArray) nbt.get(i)).toIntArray()));
-			break;
+			case 6:
+				for (int i = 0; i < count; i++)
+					tagList.appendTag(new NBTTagDouble(((Primitive) nbt.get(i)).toDouble()));
+				break;
+			case 5:
+				for (int i = 0; i < count; i++)
+					tagList.appendTag(new NBTTagFloat(((Primitive) nbt.get(i)).toFloat()));
+				break;
+			case 8:
+				for (int i = 0; i < count; i++)
+					tagList.appendTag(new NBTTagString(nbt.get(i).toString()));
+				break;
+			case 10:
+				for (int i = 0; i < count; i++)
+					try {
+						tagList.appendTag(create(nbt.get(i)));
+					} catch (Exception e) {}
+				break;
+			case 11:
+				for (int i = 0; i < count; i++)
+					tagList.appendTag(new NBTTagIntArray(((PrimitiveArray) nbt.get(i)).toIntArray()));
+				break;
 		}
 		return tagList;
 	}
@@ -122,8 +121,7 @@ public class DataToMC {
 		for (final Entry<String, Data> key : compound.value().entrySet())
 			try {
 				tag.setTag(key.getKey(), create(key.getValue()));
-			}
-			catch (Exception e) {}
+			} catch (Exception e) {}
 		return tag;
 	}
 

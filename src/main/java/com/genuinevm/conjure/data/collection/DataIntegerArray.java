@@ -92,16 +92,14 @@ public class DataIntegerArray implements Data<int[]>, PrimitiveArray {
 	}
 
 	@Override
-	public DataIntegerArray deserialize(final JsonElement json, final Type typeOfT,
-			final JsonDeserializationContext context) throws JsonParseException {
+	public DataIntegerArray deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			final JsonArray array = json.getAsJsonArray();
 			final int[] ints = new int[array.size()];
 			for (int i = 0; i < ints.length; i++)
 				ints[i] = array.get(i).getAsByte();
 			return new DataIntegerArray(ints);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new JsonParseException(e);
 		}
 	}

@@ -51,8 +51,7 @@ public class InputOutput {
 				throw new IOException("Failed to delete " + file);
 			else
 				tmp.renameTo(file);
-		}
-		catch (final Exception e) {}
+		} catch (final Exception e) {}
 	}
 
 	public static DataCompound read(final InputStream stream) throws IOException {
@@ -77,8 +76,7 @@ public class InputOutput {
 	}
 
 	public static DataCompound readCompressed(final byte[] bytes) throws IOException {
-		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(
-				new ByteArrayInputStream(bytes))));
+		final DataInputStream compressed = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(bytes))));
 		final DataCompound compound = InputOutput.getDataCompound(compressed);
 		compressed.close();
 		return compound;
@@ -106,14 +104,11 @@ public class InputOutput {
 		final DataOutputStream output = new DataOutputStream(bytes);
 		try {
 			InputOutput.writeToOutput(compound, output);
-		}
-		catch (final IOException e) {}
-		finally {
+		} catch (final IOException e) {} finally {
 			try {
 				output.close();
 				bytes.close();
-			}
-			catch (final IOException e) {}
+			} catch (final IOException e) {}
 		}
 		return bytes.toByteArray();
 	}
@@ -127,8 +122,7 @@ public class InputOutput {
 		return byteArray.toByteArray();
 	}
 
-	public static void writeToCompressedStream(final DataCompound compound, final OutputStream stream)
-			throws IOException {
+	public static void writeToCompressedStream(final DataCompound compound, final OutputStream stream) throws IOException {
 		final DataOutputStream output = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(stream)));
 		InputOutput.writeToOutput(compound, output);
 		output.close();

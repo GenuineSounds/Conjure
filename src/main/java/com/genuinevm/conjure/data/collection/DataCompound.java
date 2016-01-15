@@ -151,8 +151,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public boolean getBoolean(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toBoolean() : false;
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return false;
 		}
 	}
@@ -160,8 +159,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public byte getByte(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toByte() : 0;
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return (byte) 0;
 		}
 	}
@@ -169,8 +167,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public short getShort(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toShort() : 0;
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return (short) 0;
 		}
 	}
@@ -178,8 +175,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public int getInteger(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toInt() : 0;
-		}
-		catch (final ClassCastException classcastexception) {
+		} catch (final ClassCastException classcastexception) {
 			return 0;
 		}
 	}
@@ -187,8 +183,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public long getLong(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toLong() : 0;
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return 0;
 		}
 	}
@@ -196,8 +191,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public float getFloat(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toFloat() : 0;
-		}
-		catch (final ClassCastException classcastexception) {
+		} catch (final ClassCastException classcastexception) {
 			return 0;
 		}
 	}
@@ -205,18 +199,15 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public double getDouble(final String name) {
 		try {
 			return values.containsKey(name) ? ((Primitive) values.get(name)).toDouble() : 0;
-		}
-		catch (final ClassCastException classcastexception) {
+		} catch (final ClassCastException classcastexception) {
 			return 0;
 		}
 	}
 
 	public String getString(final String name) {
 		try {
-			return values.containsKey(name) ? (values.get(name) instanceof DataString ? ((DataString) values.get(name))
-					.value() : values.get(name).toString()) : "";
-		}
-		catch (final ClassCastException classcastexception) {
+			return values.containsKey(name) ? (values.get(name) instanceof DataString ? ((DataString) values.get(name)).value() : values.get(name).toString()) : "";
+		} catch (final ClassCastException classcastexception) {
 			return "";
 		}
 	}
@@ -224,8 +215,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public byte[] getByteArray(final String name) {
 		try {
 			return values.containsKey(name) ? ((PrimitiveArray) values.get(name)).toByteArray() : new byte[0];
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return new byte[0];
 		}
 	}
@@ -233,28 +223,23 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public int[] getIntArray(final String name) {
 		try {
 			return values.containsKey(name) ? ((PrimitiveArray) values.get(name)).toIntArray() : new int[0];
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return new int[0];
 		}
 	}
 
 	public BigInteger getBigInteger(final String name) {
 		try {
-			return values.containsKey(name) ? new BigInteger(((DataByteArray) values.get(name)).value())
-					: new BigInteger("0");
-		}
-		catch (final ClassCastException e) {
+			return values.containsKey(name) ? new BigInteger(((DataByteArray) values.get(name)).value()) : new BigInteger("0");
+		} catch (final ClassCastException e) {
 			return new BigInteger("0");
 		}
 	}
 
 	public BigDecimal getBigDecimal(final String name) {
 		try {
-			return values.containsKey(name) ? new BigDecimal(((DataString) values.get(name)).value()) : new BigDecimal(
-					"0");
-		}
-		catch (final ClassCastException e) {
+			return values.containsKey(name) ? new BigDecimal(((DataString) values.get(name)).value()) : new BigDecimal("0");
+		} catch (final ClassCastException e) {
 			return new BigDecimal("0");
 		}
 	}
@@ -262,8 +247,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public DataArray getArray(final String name) {
 		try {
 			return values.containsKey(name) ? (DataArray) values.get(name) : new DataArray();
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return new DataArray();
 		}
 	}
@@ -271,8 +255,7 @@ public class DataCompound implements Data<Map<String, Data>> {
 	public DataCompound getCompound(final String name) {
 		try {
 			return values.containsKey(name) ? (DataCompound) values.get(name) : new DataCompound();
-		}
-		catch (final ClassCastException e) {
+		} catch (final ClassCastException e) {
 			return new DataCompound();
 		}
 	}
@@ -332,25 +315,21 @@ public class DataCompound implements Data<Map<String, Data>> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JsonObject serialize(final Data<Map<String, Data>> src, final Type typeOfSrc,
-			final JsonSerializationContext context) {
+	public JsonObject serialize(final Data<Map<String, Data>> src, final Type typeOfSrc, final JsonSerializationContext context) {
 		final JsonObject object = new JsonObject();
 		for (final Entry<String, Data> entry : src.value().entrySet())
-			object.add(entry.getKey(),
-					entry.getValue().serialize(entry.getValue(), entry.getValue().getClass(), context));
+			object.add(entry.getKey(), entry.getValue().serialize(entry.getValue(), entry.getValue().getClass(), context));
 		return object;
 	}
 
 	@Override
-	public DataCompound deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-			throws JsonParseException {
+	public DataCompound deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			final Map<String, Data> map = new HashMap<String, Data>();
 			for (final Entry<String, JsonElement> entry : json.getAsJsonObject().entrySet())
 				map.put(entry.getKey(), Deserializer.parse(entry.getValue(), entry.getValue().getClass(), context));
 			return new DataCompound(map);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new JsonParseException(e);
 		}
 	}

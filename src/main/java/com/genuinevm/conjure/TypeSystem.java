@@ -63,7 +63,6 @@ public class TypeSystem {
 			registerDataType(DataIntegerArray.CODE, new DataIntegerArray());
 			registerDataType(DataBoolean.CODE, new DataBoolean());
 			registerDataType(DataList.CODE, new DataList());
-		}
-		catch (final DataException e) {}
+		} catch (final DataException e) {}
 	}
 }

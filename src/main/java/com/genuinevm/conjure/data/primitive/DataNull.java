@@ -51,8 +51,7 @@ public class DataNull implements Data<Void> {
 	}
 
 	@Override
-	public DataNull deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-			throws JsonParseException {
+	public DataNull deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		return DataNull.INSTANCE;
 	}
 

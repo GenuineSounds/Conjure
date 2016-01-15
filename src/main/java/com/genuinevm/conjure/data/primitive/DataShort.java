@@ -104,12 +104,10 @@ public class DataShort implements Data<Short>, Primitive {
 	}
 
 	@Override
-	public DataShort deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-			throws JsonParseException {
+	public DataShort deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			return new DataShort(json.getAsShort());
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new JsonParseException(e);
 		}
 	}

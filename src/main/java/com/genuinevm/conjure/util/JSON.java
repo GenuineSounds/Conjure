@@ -23,8 +23,7 @@ public class JSON {
 			final Writer wr = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8"));
 			JSON.GSON.toJson(compound, DataCompound.class, wr);
 			wr.close();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -41,8 +40,7 @@ public class JSON {
 			final FileReader fr = new FileReader(file);
 			out = JSON.GSON.fromJson(fr, DataCompound.class);
 			fr.close();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return out;

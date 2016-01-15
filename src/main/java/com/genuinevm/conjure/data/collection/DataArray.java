@@ -146,8 +146,7 @@ public class DataArray implements Data<Data[]> {
 	}
 
 	@Override
-	public DataArray deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-			throws JsonParseException {
+	public DataArray deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
 		try {
 			final JsonArray jsonArray = json.getAsJsonArray();
 			final Data[] array = new Data[jsonArray.size()];
@@ -156,8 +155,7 @@ public class DataArray implements Data<Data[]> {
 				array[i] = Deserializer.parse(element, element.getClass(), context);
 			}
 			return new DataArray(array);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new JsonParseException(e);
 		}
 	}

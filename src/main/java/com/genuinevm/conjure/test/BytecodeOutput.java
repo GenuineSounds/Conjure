@@ -15,8 +15,7 @@ public class BytecodeOutput {
 		final String main1 = InputOutput.bytesToHex(InputOutput.getBytes(main));
 		try {
 			main = InputOutput.read(InputOutput.getBytes(JSON.thereAndBack(main)));
-		}
-		catch (final IOException e) {}
+		} catch (final IOException e) {}
 		System.out.println(JSON.toJSON(main));
 		System.out.println("a: " + main.getString("a"));
 		System.out.println(main1);
