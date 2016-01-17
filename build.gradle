@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'application'
 
 repositories {
 	jcenter()
@@ -8,7 +7,7 @@ repositories {
 
 jar {
 	baseName = 'Conjure'
-	version =  '1.0.1'
+	version =  '1.0.2'
 }
 
 dependencies {
