@@ -22,7 +22,7 @@ public class JSON {
 			if (!file.exists())
 				file.createNewFile();
 			final Writer wr = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8"));
-			JSON.GSON.toJson(compound, DataCompound.class, wr);
+			GSON.toJson(compound, DataCompound.class, wr);
 			wr.close();
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -30,7 +30,7 @@ public class JSON {
 	}
 
 	public static String toJSON(final DataCompound compound) {
-		return JSON.GSON.toJson(compound, DataCompound.class);
+		return GSON.toJson(compound, DataCompound.class);
 	}
 
 	public static DataCompound loadFromJSON(final File file) {
@@ -39,7 +39,7 @@ public class JSON {
 			return out;
 		try {
 			final FileReader fr = new FileReader(file);
-			out = JSON.GSON.fromJson(fr, DataCompound.class);
+			out = GSON.fromJson(fr, DataCompound.class);
 			fr.close();
 		} catch (final Exception e) {
 			e.printStackTrace();
@@ -48,14 +48,14 @@ public class JSON {
 	}
 
 	public static DataCompound thereAndBack(final DataCompound compound) {
-		return JSON.GSON.fromJson(JSON.GSON.toJson(compound), DataCompound.class);
+		return GSON.fromJson(GSON.toJson(compound), DataCompound.class);
 	}
 
 	static {
-		JSON.GSON_BUILDER.setPrettyPrinting();
-		JSON.GSON_BUILDER.enableComplexMapKeySerialization();
+		GSON_BUILDER.setPrettyPrinting();
+		GSON_BUILDER.enableComplexMapKeySerialization();
 		// This is the only de/serializer needed since this is the only enclosing type that is serialized directly.
-		JSON.GSON_BUILDER.registerTypeAdapter(DataCompound.class, new DataCompound());
-		GSON = JSON.GSON_BUILDER.create();
+		GSON_BUILDER.registerTypeAdapter(DataCompound.class, new DataCompound());
+		GSON = GSON_BUILDER.create();
 	}
 }
